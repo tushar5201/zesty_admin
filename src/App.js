@@ -3,7 +3,7 @@ import { ToastContainer } from "react-toastify";
 import HomeScreen from "./screens/HomeScreen";
 import SigninScreen from "./screens/SigninScreen";
 import SignupScreen from "./screens/SignupScreen";
-// import 'react-toastify/dist/ReactToastify.css';
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
   return (

@@ -1,15 +1,40 @@
-import React from 'react';
-import { Button, Card, CardHeader, CardTitle, Col, Container, Row } from "react-bootstrap"
-import { Link } from 'react-router-dom';
+import {React, useState} from 'react';
+import { Button, Card, Col, Row } from "react-bootstrap"
+import { Link, useNavigate } from 'react-router-dom';
+import RegistrationHeader from '../components/RegistrationHeader';
+import {toast} from "react-toastify"
 
 export default function SigninScreen() {
+    const [username, setUsername] = useState("");
+    const [password, setPassword] = useState("");
+
+    const navigate = useNavigate();
+    const submitHandler = async (e) => {
+        e.preventDefault();
+        try {
+            // const res = await axios.post(`/admin/signup`, {email, password, secretCode});
+            const res = await fetch("/admin/signin", {
+                method: 'POST',
+                headers: { 'content-type': 'application/json' },
+                body: JSON.stringify({username, password})
+            });
+            if(res.status === 405) {
+                toast.dark("Wrong Credentials");
+            }else if(res.status === 401){
+                toast.dark("User is not authenticared");
+            } else if(res.status === 406) {
+                toast.dark("Error in Signin");
+            } else if(res.status === 200) {
+                toast.dark("Successfully Signed In");
+                navigate("/");
+            }   
+        } catch (error) {
+            console.log(error);
+        }
+    }
     return (
         <div>
-            <header>
-                <Container>
-                    <h1 className='logo'><b> Zesty</b></h1><br />
-                </Container>
-            </header>
+            <RegistrationHeader />
             <section id="login-form">
                 <Card className='mx-auto'>
                     <h2 className='card-title'>Hi, Welcome Back</h2>
@@ -17,15 +42,15 @@ export default function SigninScreen() {
 
                     <form action="">
                         <div className="form-floating m-3">
-                            <input type="email" name="email" id="email" placeholder='name@gmail.com' className='form-control' />
-                            <label for="email">Email address</label>
+                            <input type="text" name="username" value={username} onChange={(e) => setUsername(e.target.value)} id="username" placeholder='Username' className='form-control' />
+                            <label for="Username">Username</label>
                         </div>
                         <div className="form-floating m-3">
-                            <input type="password" name="password" id="password" placeholder='password' className='form-control' />
+                            <input type="password" name="password" value={password} onChange={(e) => setPassword(e.target.value)} id="password" placeholder='password' className='form-control' />
                             <label for="email">Password</label>
                         </div>
 
-                        <Button className='btn-register m-3 me-3'>Sign In</Button>
+                        <Button className='btn-register m-3 me-3' onClick={submitHandler}>Sign In</Button>
                     </form><br />
                     <hr />
                     <Row>
@@ -33,10 +58,10 @@ export default function SigninScreen() {
                             <p>Don't have an account ? </p>
                         </Col>
                         <Col className='text-start'>
-                            <Link className='link'><b>Sign Up</b></Link>
+                            <Link className='link' to={"/admin/signup"}><b>Sign Up</b></Link>
                         </Col>
                     </Row>
-                </Card>
+                </Card><br />
             </section>
         </div>
     )
