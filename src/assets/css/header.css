@@ -1,0 +1,16 @@
+header {
+    height: 80px;
+    width: 100%;
+    display: flex;
+    background-color: #fff;
+}
+
+.logo {
+    padding-top: 0px;
+    color: #000;
+}
+
+.fa-bars {
+    font-size: 25px;
+    color: var(--clr-black);
+}

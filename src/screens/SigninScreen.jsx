@@ -3,6 +3,8 @@ import { Button, Card, Col, Row } from "react-bootstrap"
 import { Link, useNavigate } from 'react-router-dom';
 import RegistrationHeader from '../components/RegistrationHeader';
 import {toast} from "react-toastify"
+import "../assets/css/registration.css"
+
 
 export default function SigninScreen() {
     const [username, setUsername] = useState("");

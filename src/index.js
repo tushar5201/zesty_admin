@@ -1,13 +1,16 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import './css/index.css';
-import './css/registration.css';
-import './css/header.css';
+import './assets/css/index.css';
+// import './assets/css/registration.css';
+// import './assets/css/header.css';
 import App from './App';
+import { SidebarProvider } from './context/sidebarContext';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <App />
+    <SidebarProvider>
+      <App />
+    </SidebarProvider>
   </React.StrictMode>
 );

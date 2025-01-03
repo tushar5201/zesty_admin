@@ -5,6 +5,8 @@ import { Link, useNavigate } from 'react-router-dom'
 import {toast} from "react-toastify"
 import { url } from '../const'
 
+import "../assets/css/registration.css"
+
 export default function SignupScreen() {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
