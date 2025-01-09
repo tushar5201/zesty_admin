@@ -39,7 +39,7 @@ export default function SignupScreen() {
         <div>
             <RegistrationHeader />
             <section id="signup-form">
-                <Card className='mx-auto'>
+                <Card className='mx-auto card-registration'>
                     <h2 className='card-title'>Hi, Welcome</h2>
                     <p>Enter credentials to continue</p>
 

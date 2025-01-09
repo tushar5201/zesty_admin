@@ -1,5 +1,5 @@
 export const navigationLinks = [
-    { id: 1, title: 'Overview', image: "fa-solid fa-gauge", link: "/" },
+    { id: 1, title: 'Dashboard', image: "fa-solid fa-gauge", link: "/" },
     { id: 2, title: 'Orders', image: "fa-solid fa-receipt", link: "/admin/orders" },
     { id: 3, title: 'Users', image: "fa-solid fa-user", link: "/admin/users" },
     { id: 4, title: 'Restaurants', image: "fa-solid fa-utensils", link: "/admin/restaurents" },

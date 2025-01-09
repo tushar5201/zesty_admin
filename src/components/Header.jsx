@@ -8,12 +8,12 @@ export default function Header() {
     const { toggleSidebar } = useContext(SidebarContext);
 
     return (<>
-        <header className='navbar'>
+        <header className='navbar navbar-expand-lg justify-content-start'>
             <Container>
                 <button className='sidebar-toggle' onClick={() => toggleSidebar()}>
                     <i className='fa fa-bars'></i>
                 </button>
-                <a href="" className="navbar-brand">
+                <a href="" className="">
                     <h1 className='logo'>Zesty</h1>
                 </a>
                 {/* <form className="d-flex">
@@ -31,8 +31,8 @@ export default function Header() {
                             Account Setting
                         </NavDropdown.Item>
                         <NavDropdown.Item href='#' className='nav-link'>
-                            <i className="fa-solid fa-arrow-right-from-bracket" style={{ fontSize: "18px" }}></i>
-                            Log Out
+                            <i className="fa-solid fa-arrow-right-from-bracket" style={{ fontSize: "18px", color: "red" }}></i>
+                            <span style={{color: "red"}}>Log Out</span>
                         </NavDropdown.Item>
                     </NavDropdown>
                     {/* <span className='info-name nav-link dropdown-toggle' data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" id='dropdown1'>Tushar</span> */}

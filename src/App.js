@@ -9,6 +9,7 @@ import UsersScreen from "./screens/UsersScreen";
 import RiderScreen from "./screens/RiderScreen";
 import RestaurantScreen from "./screens/RestaurantScreen";
 import CouponsScreen from "./screens/CouponsScreen";
+import Example from "./components/Example";
 // import RestroScreen from "./screens/RestroScreen";
 
 function App() {
@@ -26,7 +27,7 @@ function App() {
             <Route path="/admin/rider" element={<RiderScreen />} />
             <Route path="/admin/restaurents" element={<RestaurantScreen />} />
             <Route path="/admin/coupons" element={<CouponsScreen />} />
-            {/* <Route path="/admin/newRestro" element={<RestroScreen />} /> */}
+            <Route path="/example" element={<Example />} />
           </Routes>
         </main>
       </div>

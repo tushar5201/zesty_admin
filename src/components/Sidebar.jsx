@@ -30,7 +30,7 @@ export default function Sidebar({id}) {
             </div> */}
 
             <form className="d-flex">
-                <input className="form-control me-2 bg-light border-black" type="search" placeholder="Search" aria-label="Search" />
+                <input className="form-control me-2 bg-light border-black ms-3" type="search" placeholder="Search" aria-label="Search" />
             </form>
             <nav className="navigation">
                 <ul className="nav-list">
