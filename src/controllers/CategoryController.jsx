@@ -40,6 +40,16 @@ export default function CategoryController() {
         fetchData();
     }, []);
 
+    const handleDelete = async () => {
+        const res = await axios.delete(`https://zesty-backend.onrender.com/category/delete-category/${category._id}`);
+        if(res.status === 200) {
+            toast.dark("category deleted successfully.");
+            window.location.reload(true);
+        } else if(res.status === 401) {
+            toast.dark("category delete failed.");
+        }
+    }
+
     return (
         <div style={{ width: "100%", padding: "0", margin: "0" }}>
             <Header />
@@ -72,7 +82,7 @@ export default function CategoryController() {
                                 <td>{category.name}</td>
                                 <td><img src={`https://zesty-backend.onrender.com/category/get-category-image/${category._id}`} height={"200px"} alt={category.name} /></td>
                                 <td><button className='btn btn-primary'>Update</button></td>
-                                <td><button className='btn btn-danger'>Delete</button></td>
+                                <td><button className='btn btn-danger' onClick={() => handleDelete(category._id)}>Delete</button></td>
                             </tr>
                         ))}
                     </tbody>
