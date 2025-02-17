@@ -32,13 +32,13 @@ export function CreateCategory() {
         categoryData.append("name", name);
         categoryData.append("image", image);
         try {
-            const res = await axios.post("https://zesty-backend-sepia.vercel.app/category/add-category", categoryData, {withCredentials: true});
-            if(res.status === 200) {
+            const res = await axios.post("https://zesty-backend-sepia.vercel.app/category/add-category", categoryData, { headers: { "Content-Type": "multipart/form-data" }, withCredentials: true });
+            if (res.status === 200) {
                 toast.dark("Category Added");
                 navigate("/admin/categories");
             } else if (res.status === 401) {
                 toast.dark("Category already exist");
-            } else if (res.status === 405){
+            } else if (res.status === 405) {
                 toast.dark("category saving failed");
             } else {
                 toast.dark("internal server error");
