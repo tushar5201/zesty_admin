@@ -31,7 +31,7 @@ export default function CategoryController() {
             try {
                 const category = await axios.get('https://zesty-backend.onrender.com/category/get-all-category');
                 console.log(category.data);
-                
+
                 dispatch({ type: 'FETCH_SUCCESS', payload: category.data })
             } catch (error) {
                 dispatch({ type: 'FETCH_FAIL', payload: error.message })
@@ -54,11 +54,13 @@ export default function CategoryController() {
 
             <table className='table'>
                 <thead>
-                    <th>Category Id</th>
-                    <th>Category Name</th>
-                    <th>Category Image</th>
-                    <th>Update</th>
-                    <th>Delete</th>
+                    <tr>
+                        <th>Category Id</th>
+                        <th>Category Name</th>
+                        <th>Category Image</th>
+                        <th>Update</th>
+                        <th>Delete</th>
+                    </tr>
                 </thead>
                 <tbody>
 
@@ -68,11 +70,11 @@ export default function CategoryController() {
                                 <tr>
                                     <td>{category._id}</td>
                                     <td>{category.name}</td>
-                                    <td>{`https://zesty-backend.onrender.com/category/get-category-image/${category._id}`}</td>
+                                    <td><img src={`https://zesty-backend.onrender.com/category/get-category-image/${category._id}`} height={"200px"} alt={category.name} /></td>
                                     <td><button className='btn btn-primary'>Update</button></td>
                                     <td><button className='btn btn-danger'>Delete</button></td>
                                 </tr>
-                    ))}
+                            ))}
                         </div>
                     )}
                 </tbody>
