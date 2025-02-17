@@ -10,6 +10,8 @@ import RiderScreen from "./screens/RiderScreen";
 import RestaurantScreen from "./screens/RestaurantScreen";
 import CouponsScreen from "./screens/CouponsScreen";
 import Example from "./components/Example";
+import CategoryScreen from "./screens/CategoryScreen";
+import { CreateCategory } from "./controllers/CategoryController";
 // import RestroScreen from "./screens/RestroScreen";
 
 function App() {
@@ -27,6 +29,8 @@ function App() {
             <Route path="/admin/rider" element={<RiderScreen />} />
             <Route path="/admin/restaurents" element={<RestaurantScreen />} />
             <Route path="/admin/coupons" element={<CouponsScreen />} />
+            <Route path="/admin/categories" element={<CategoryScreen />} />
+            <Route path="/admin/add-category" element={<CreateCategory />} />
             <Route path="/example" element={<Example />} />
           </Routes>
         </main>

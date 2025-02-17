@@ -14,7 +14,6 @@ export default function SigninScreen() {
     const submitHandler = async (e) => {
         e.preventDefault();
         try {
-            // const res = await axios.post(`/admin/signup`, {email, password, secretCode});
             const res = await fetch("/admin/signin", {
                 method: 'POST',
                 headers: { 'content-type': 'application/json' },
