@@ -41,17 +41,17 @@ export default function CategoryController() {
     }, []);
 
     const handleDelete = async (id) => {
-        const res = await axios.delete(`https://zesty-backend.onrender.com/category/delete-category`, id);
-        if(res.status === 200) {
+        const res = await axios.delete(`https://zesty-backend.onrender.com/category/delete-category`, { id });
+        if (res.status === 200) {
             toast.dark("category deleted successfully.");
             window.location.reload(true);
-        } else if(res.status === 401) {
+        } else if (res.status === 401) {
             toast.dark("category delete failed.");
         }
     }
 
     return (
-        <div style={{ width: "100%", padding: "0", margin: "0" }}>
+        <div style={{ width: "100%", padding: "20px", margin: "0" }}>
             <Header />
             <Row>
                 <Col md={10}>
@@ -62,7 +62,7 @@ export default function CategoryController() {
                 </Col>
             </Row>
 
-            <table className='table'>
+            <table className='table mt-5'>
                 <thead>
                     <tr>
                         <th>Category Id</th>
