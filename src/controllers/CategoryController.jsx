@@ -40,8 +40,8 @@ export default function CategoryController() {
         fetchData();
     }, []);
 
-    const handleDelete = async () => {
-        const res = await axios.delete(`https://zesty-backend.onrender.com/category/delete-category/${category._id}`);
+    const handleDelete = async (id) => {
+        const res = await axios.delete(`https://zesty-backend.onrender.com/category/delete-category`, id);
         if(res.status === 200) {
             toast.dark("category deleted successfully.");
             window.location.reload(true);
