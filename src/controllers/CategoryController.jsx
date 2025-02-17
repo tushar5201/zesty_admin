@@ -62,22 +62,21 @@ export default function CategoryController() {
                         <th>Delete</th>
                     </tr>
                 </thead>
-                <tbody>
 
-                    {loading ? <h3>Loading...</h3> : error ? { error } : (
-                        <div>
-                            {categories.map((category, i) => (
-                                <tr>
-                                    <td>{category._id}</td>
-                                    <td>{category.name}</td>
-                                    <td><img src={`https://zesty-backend.onrender.com/category/get-category-image/${category._id}`} height={"200px"} alt={category.name} /></td>
-                                    <td><button className='btn btn-primary'>Update</button></td>
-                                    <td><button className='btn btn-danger'>Delete</button></td>
-                                </tr>
-                            ))}
-                        </div>
-                    )}
-                </tbody>
+                {loading ? <h3>Loading...</h3> : error ? { error } : (
+                    <tbody>
+
+                        {categories.slice(0).reverse().map((category, i) => (
+                            <tr key={i}>
+                                <td>{category._id}</td>
+                                <td>{category.name}</td>
+                                <td><img src={`https://zesty-backend.onrender.com/category/get-category-image/${category._id}`} height={"200px"} alt={category.name} /></td>
+                                <td><button className='btn btn-primary'>Update</button></td>
+                                <td><button className='btn btn-danger'>Delete</button></td>
+                            </tr>
+                        ))}
+                    </tbody>
+                )}
             </table>
         </div>
     )
