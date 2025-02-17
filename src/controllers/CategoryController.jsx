@@ -1,11 +1,45 @@
-import React, { useState } from 'react'
+import React, { useEffect, useReducer, useState } from 'react'
 import Header from '../components/Header'
 import { Card, Col, Container, Row } from 'react-bootstrap'
 import { Link, useNavigate } from 'react-router-dom'
 import axios from "axios"
 import { toast } from 'react-toastify'
 
+const reducer = (state, action) => {
+    switch (action.type) {
+        case 'FETCH_REQUEST':
+            return { ...state, loading: true }
+        case 'FETCH_SUCCESS':
+            return { ...state, loading: false, categories: action.payload }
+        case 'FETCH_FAIL':
+            return { ...state, loading: false, error: action.payload }
+        default:
+            return state;
+    }
+}
+
 export default function CategoryController() {
+    const [{ loading, error, categories }, dispatch] = useReducer(reducer, {
+        loading: true,
+        error: '',
+        categories: []
+    });
+
+    useEffect(() => {
+        const fetchData = async () => {
+            dispatch({ type: 'FETCH_REQUEST' });
+            try {
+                const category = await axios.get('https://zesty-backend.onrender.com/category/get-all-category');
+                console.log(category.data);
+                
+                dispatch({ type: 'FETCH_SUCCESS', payload: category.data })
+            } catch (error) {
+                dispatch({ type: 'FETCH_FAIL', payload: error.message })
+            }
+        }
+        fetchData();
+    }, []);
+
     return (
         <div style={{ width: "100%", padding: "0", margin: "0" }}>
             <Header />
@@ -17,6 +51,32 @@ export default function CategoryController() {
                     <Link to={"/admin/add-category"} className='btn btn-outline-dark mt-4'>Add Category</Link>
                 </Col>
             </Row>
+
+            <table className='table'>
+                <thead>
+                    <th>Category Id</th>
+                    <th>Category Name</th>
+                    <th>Category Image</th>
+                    <th>Update</th>
+                    <th>Delete</th>
+                </thead>
+                <tbody>
+
+                    {loading ? <h3>Loading...</h3> : error ? { error } : (
+                        <div>
+                            {categories.map((category, i) => (
+                                <tr>
+                                    <td>{category._id}</td>
+                                    <td>{category.name}</td>
+                                    <td>{`https://zesty-backend.onrender.com/category/get-category-image/${category._id}`}</td>
+                                    <td><button className='btn btn-primary'>Update</button></td>
+                                    <td><button className='btn btn-danger'>Delete</button></td>
+                                </tr>
+                    ))}
+                        </div>
+                    )}
+                </tbody>
+            </table>
         </div>
     )
 }
