@@ -32,7 +32,7 @@ export function CreateCategory() {
         categoryData.append("name", name);
         categoryData.append("image", image);
         try {
-            const res = await axios.post("/category/add-category", categoryData);
+            const res = await axios.post("https://zesty-backend-sepia.vercel.app/category/add-category", categoryData);
             if(res.status === 200) {
                 toast.dark("Category Added");
                 navigate("/admin/categories");
