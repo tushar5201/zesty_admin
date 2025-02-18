@@ -1,7 +1,5 @@
 import React from 'react'
-import Header from '../components/Header'
 import Sidebar from '../components/Sidebar'
-import TotalOrdersCard from '../components/TotalOrdersCard'
 import Content from '../components/Content'
 
 export default function HomeScreen() {

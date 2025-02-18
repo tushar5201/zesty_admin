@@ -12,7 +12,6 @@ import CouponsScreen from "./screens/CouponsScreen";
 import Example from "./components/Example";
 import CategoryScreen from "./screens/CategoryScreen";
 import { CreateCategory } from "./controllers/CategoryController";
-// import RestroScreen from "./screens/RestroScreen";
 
 function App() {
   return (

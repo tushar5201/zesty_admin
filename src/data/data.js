@@ -5,8 +5,4 @@ export const navigationLinks = [
     { id: 4, title: 'Restaurants', image: "fa-solid fa-utensils", link: "/admin/restaurents" },
     { id: 5, title: 'Categories', image: "fa-solid fa-list", link: "/admin/categories" },
     { id: 6, title: 'Coupons', image: "fa-solid fa-ticket", link: "/admin/coupons" },
-    // { id: 7, title: 'Savings', image: iconsImgs.wallet },
-    // { id: 8, title: 'Financial Advice', image: iconsImgs.wealth },
-    // { id: 9, title: 'Account', image: iconsImgs.user },
-    // { id: 10, title: 'Settings', image: iconsImgs.gears }
 ];

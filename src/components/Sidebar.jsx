@@ -22,12 +22,6 @@ export default function Sidebar({id}) {
 
     return (
         <div className={`sidebar ${sidebarClass}`}>
-            {/* <div className="user-info">
-                <div className="info-img img-fit-cover">
-                    <img src={personsImgs.person_one} alt="" />
-                </div>
-                <span className='info-name'>Tushar Lakadiya</span>
-            </div> */}
 
             <form className="d-flex">
                 <input className="form-control me-2 bg-light border-black ms-3" type="search" placeholder="Search" aria-label="Search" />

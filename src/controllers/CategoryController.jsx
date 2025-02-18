@@ -41,7 +41,6 @@ export default function CategoryController() {
     }, []);
 
     const handleDelete = async (id) => {
-        // const res = await axios.delete(`https://zesty-backend.onrender.com/category/delete-category`, { id });
         const res = await fetch('https://zesty-backend.onrender.com/category/delete-category', {
             method: 'DELETE',
             headers: { 'content-type': 'application/json' },
@@ -57,43 +56,45 @@ export default function CategoryController() {
     }
 
     return (
-        <div style={{ width: "100%", padding: "20px", margin: "0" }}>
+        <div style={{ width: "100%", padding: "0    ", margin: "0" }}>
             <Header />
-            <Row>
-                <Col md={10}>
-                    <h2 style={{ margin: "15px 0 5px 20px" }}>Categories</h2>
-                </Col>
-                <Col>
-                    <Link to={"/admin/add-category"} className='btn btn-outline-dark mt-4'>Add Category</Link>
-                </Col>
-            </Row>
+            <div style={{padding: "20px"}}>
+                <Row>
+                    <Col md={10}>
+                        <h2 style={{ margin: "15px 0 5px 20px" }}>Categories</h2>
+                    </Col>
+                    <Col>
+                        <Link to={"/admin/add-category"} className='btn btn-outline-dark mt-4'>Add Category</Link>
+                    </Col>
+                </Row>
 
-            <table className='table mt-5'>
-                <thead>
-                    <tr>
-                        <th>Category Id</th>
-                        <th>Category Name</th>
-                        <th>Category Image</th>
-                        <th>Update</th>
-                        <th>Delete</th>
-                    </tr>
-                </thead>
+                <table className='table mt-5'>
+                    <thead>
+                        <tr>
+                            <th>Category Id</th>
+                            <th>Category Name</th>
+                            <th>Category Image</th>
+                            <th>Update</th>
+                            <th>Delete</th>
+                        </tr>
+                    </thead>
 
-                {loading ? <h3>Loading...</h3> : error ? { error } : (
-                    <tbody>
+                    {loading ? <h3>Loading...</h3> : error ? { error } : (
+                        <tbody>
 
-                        {categories.slice(0).reverse().map((category, i) => (
-                            <tr key={i}>
-                                <td>{category._id}</td>
-                                <td>{category.name}</td>
-                                <td><img src={`https://zesty-backend.onrender.com/category/get-category-image/${category._id}`} height={"200px"} alt={category.name} /></td>
-                                <td><button className='btn btn-primary'>Update</button></td>
-                                <td><button className='btn btn-danger' onClick={() => handleDelete(category._id)}>Delete</button></td>
-                            </tr>
-                        ))}
-                    </tbody>
-                )}
-            </table>
+                            {categories.slice(0).reverse().map((category, i) => (
+                                <tr key={i} style={{verticalAlign: "middle"}}>
+                                    <td>{category._id}</td>
+                                    <td><h4>{category.name}</h4></td>
+                                    <td><img src={`https://zesty-backend.onrender.com/category/get-category-image/${category._id}`} height={"200px"} alt={category.name} /></td>
+                                    <td><button className='btn btn-primary'>Update</button></td>
+                                    <td><button className='btn btn-danger' onClick={() => handleDelete(category._id)}>Delete</button></td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    )}
+                </table>
+            </div>
         </div>
     )
 }

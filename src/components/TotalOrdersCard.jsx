@@ -36,11 +36,6 @@ export default function TotalOrdersCard({ type, total, image }) {
                     <p>Total {type}</p>
                 </Col>
             </Row>
-            {/* <a className='text-end' style={{ color: "#024b3b", marginTop: "10px" }} href={`/admin/${type}`}>
-                View All &nbsp; */}
-            {/* <i className='fa-solid fa-arrow-right' style={{ fontSize: "15px" }}></i> */}
-            {/* <i className='fa-solid fa-chevron-right' style={{ fontSize: "12px" }}></i> */}
-            {/* </a> */}
         </Card>
     )
 }

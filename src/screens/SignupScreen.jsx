@@ -3,7 +3,6 @@ import RegistrationHeader from '../components/RegistrationHeader'
 import { Button, Card, Col, Row } from 'react-bootstrap'
 import { Link, useNavigate } from 'react-router-dom'
 import {toast} from "react-toastify"
-import { url } from '../const'
 
 import "../assets/css/registration.css"
 

@@ -1,7 +1,7 @@
 import React from 'react'
 import Header from './Header'
 import TotalOrdersCard from './TotalOrdersCard'
-import { Card, Col, Row } from 'react-bootstrap'
+import { Col, Row } from 'react-bootstrap'
 import OrdersChart from './OrdersChart'
 import PastOrdersandPartners from './PastOrders&partner'
 
