@@ -50,7 +50,7 @@ export default function HomeScreen() {
           </Modal.Header>
           <Modal.Body>
             Restaurant Logo : <br /><img className='ms-5' src={`https://zesty-backend.onrender.com/restaurant/get-restaurant-logo/${restaurant._id}`} alt={restaurant.restaurantName} width={150} /><br />
-            <table>
+            <table className='table'>
               <tbody>
                 <tr>
                   <td>Owner Name</td>
