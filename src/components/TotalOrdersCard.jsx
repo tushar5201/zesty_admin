@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react'
-import { Card, Col, Form, Row } from 'react-bootstrap'
+import React from 'react'
+import { Card, Col, Row } from 'react-bootstrap'
 // import { io } from "socket.io-client";
 import "../assets/css/totalOrdersCard.css";
 
