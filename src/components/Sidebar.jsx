@@ -9,7 +9,7 @@ export default function Sidebar({id}) {
     const [activeLinkIndex] = useState(id);
     const [sidebarClass, setSidebarClass] = useState("");
     const { isSidebarOpen } = useContext(SidebarContext);
-    console.log(isSidebarOpen);
+    // console.log(isSidebarOpen);
 
 
     useEffect(() => {

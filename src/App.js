@@ -12,6 +12,7 @@ import CouponsScreen from "./screens/CouponsScreen";
 import Example from "./components/Example";
 import CategoryScreen from "./screens/CategoryScreen";
 import { CreateCategory } from "./controllers/CategoryController";
+import Notification from "./screens/Notification";
 
 function App() {
   return (
@@ -30,6 +31,7 @@ function App() {
             <Route path="/admin/coupons" element={<CouponsScreen />} />
             <Route path="/admin/categories" element={<CategoryScreen />} />
             <Route path="/admin/add-category" element={<CreateCategory />} />
+            <Route path="/admin/notifications" element={<Notification />} />
             <Route path="/example" element={<Example />} />
           </Routes>
         </main>
