@@ -5,7 +5,7 @@ import Header from '../components/Header'
 export default function OrdersScreen() {
   return (
     <div className="app">
-        <Sidebar id={2} />
+        <Sidebar id={3} />
         <Header />
     </div>
   )

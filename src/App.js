@@ -6,13 +6,15 @@ import SignupScreen from "./screens/SignupScreen";
 import 'react-toastify/dist/ReactToastify.css';
 import OrdersScreen from "./screens/OrdersScreen";
 import UsersScreen from "./screens/UsersScreen";
-import RiderScreen from "./screens/RiderScreen";
+// import RiderScreen from "./screens/RiderScreen";
 import RestaurantScreen from "./screens/RestaurantScreen";
 import CouponsScreen from "./screens/CouponsScreen";
 import Example from "./components/Example";
 import CategoryScreen from "./screens/CategoryScreen";
 import { CreateCategory } from "./controllers/CategoryController";
 import Notification from "./screens/Notification";
+import ZestyMart from "./screens/ZestyMart";
+import AddMartItem from "./controllers/ZestyMartController";
 
 function App() {
   return (
@@ -26,12 +28,14 @@ function App() {
             <Route path="/admin/signup" element={<SignupScreen />} />
             <Route path="/admin/orders" element={<OrdersScreen />} />
             <Route path="/admin/users" element={<UsersScreen />} />
-            <Route path="/admin/rider" element={<RiderScreen />} />
+            {/* <Route path="/admin/rider" element={<RiderScreen />} /> */}
             <Route path="/admin/restaurents" element={<RestaurantScreen />} />
             <Route path="/admin/coupons" element={<CouponsScreen />} />
             <Route path="/admin/categories" element={<CategoryScreen />} />
             <Route path="/admin/add-category" element={<CreateCategory />} />
             <Route path="/admin/notifications" element={<Notification />} />
+            <Route path="/admin/zesty-mart" element={<ZestyMart />} />
+            <Route path="/admin/add-mart-item" element={<AddMartItem />} />
             <Route path="/example" element={<Example />} />
           </Routes>
         </main>

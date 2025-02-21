@@ -5,7 +5,7 @@ import Header from '../components/Header'
 export default function RestaurantScreen() {
   return (
     <div className='app'>
-        <Sidebar id={4} />
+        <Sidebar id={5} />
         <Header />
     </div>  )
 }

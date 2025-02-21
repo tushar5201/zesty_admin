@@ -20,7 +20,7 @@ export default function Header() {
                     <Link to="/admin/notifications" style={{color: "black"}}>
                         <i class="fa-solid fa-bell"></i>
                     </Link>
-                    <NavDropdown className='info-name' title="Tushar" id='dropdown'>
+                    <NavDropdown className='info-name' title="Admin" id='dropdown'>
                         <NavDropdown.Item disabled href='#'><h5 style={{ color: "black", width: "200px", margin: "10px 10px 10px 0" }}>Welcome back</h5></NavDropdown.Item>
                         <NavDropdown.Item disabled href='#'><p style={{ color: "" }}>Admin</p></NavDropdown.Item>
                         <NavDropdown.Item href='#' className='nav-link'>

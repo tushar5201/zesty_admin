@@ -5,7 +5,7 @@ import Header from '../components/Header'
 export default function CouponsScreen() {
   return (
     <div className='app'>
-        <Sidebar id={6} />
+        <Sidebar id={7} />
         <Header />
     </div>
   )
