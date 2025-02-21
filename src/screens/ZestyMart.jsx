@@ -31,6 +31,7 @@ export default function ZestyMart() {
 
     const [showDetails, setShowDetails] = useState(false);
     const [details, setDetails] = useState(null);
+    const [category, setCategory] = useState("");
 
     useEffect(() => {
         const fetchData = async () => {
@@ -73,8 +74,20 @@ export default function ZestyMart() {
 
                 <div style={{ padding: "20px" }}>
                     <Row>
-                        <Col md={10}>
+                        <Col md={7}>
                             <h2 style={{ margin: "15px 0 5px 20px" }}>Mart Items</h2>
+                        </Col>
+                        <Col md={3}>
+                            <select name="category" id="" onChange={(e) => setCategory(e.target.value)} className='in form-select mt-4 w-30'>
+                                <option value="" disabled selected>Select category</option>
+                                <option value="">All</option>
+                                <option value="Fresh">Fresh</option>
+                                <option value="Grocery">Grocery</option>
+                                <option value="Electronics">Electronics</option>
+                                <option value="Beauty">Beauty</option>
+                                <option value="Home">Home</option>
+                                <option value="Kids">Kids</option>
+                            </select>
                         </Col>
                         <Col>
                             <Link to={"/admin/add-mart-item"} className='btn btn-outline-dark mt-4'>Add Mart Item</Link>
@@ -92,20 +105,42 @@ export default function ZestyMart() {
                             </tr>
                         </thead>
 
-                        {loading ? <h3>Loading...</h3> : error ? { error } : (
-                            <tbody>
-
-                                {martItems.slice(0).reverse().map((martItem, i) => (
-                                    <tr key={i} style={{ verticalAlign: "middle" }}>
-                                        <td>{martItem._id}</td>
-                                        <td><h4>{martItem.name}</h4></td>
-                                        <td><button onClick={() => handleShow(martItem)} style={{ textDecoration: "underline", background: "none", padding: 0, width: "100px" }}>Details</button></td>
-                                        <td><button className='btn btn-primary'>Update</button></td>
-                                        <td><button className='btn btn-danger' onClick={() => handleDelete(martItem._id)}>Delete</button></td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        )}
+                        {
+                            category === "" ? (
+                                <>
+                                    {loading ? <h3>Loading...</h3> : error ? { error } : (
+                                        <tbody>
+                                            {martItems.slice(0).reverse().map((martItem, i) => (
+                                                <tr key={i} style={{ verticalAlign: "middle" }}>
+                                                    <td>{martItem._id}</td>
+                                                    <td><h4>{martItem.name}</h4></td>
+                                                    <td><button onClick={() => handleShow(martItem)} style={{ textDecoration: "underline", background: "none", padding: 0, width: "100px" }}>Details</button></td>
+                                                    <td><button className='btn btn-primary'>Update</button></td>
+                                                    <td><button className='btn btn-danger' onClick={() => handleDelete(martItem._id)}>Delete</button></td>
+                                                </tr>
+                                            ))}
+                                        </tbody>
+                                    )}
+                                </>
+                            ) : (
+                                <>
+                                    {loading ? <h3>Loading...</h3> : error ? { error } : (
+                                        <tbody>
+                                            {martItems.slice(0).reverse().map((martItem, i) => (
+                                                martItem.category === category &&
+                                                <tr key={i} style={{ verticalAlign: "middle" }}>
+                                                    <td>{martItem._id}</td>
+                                                    <td><h4>{martItem.name}</h4></td>
+                                                    <td><button onClick={() => handleShow(martItem)} style={{ textDecoration: "underline", background: "none", padding: 0, width: "100px" }}>Details</button></td>
+                                                    <td><button className='btn btn-primary'>Update</button></td>
+                                                    <td><button className='btn btn-danger' onClick={() => handleDelete(martItem._id)}>Delete</button></td>
+                                                </tr>
+                                            ))}
+                                        </tbody>
+                                    )}
+                                </>
+                            )
+                        }
 
                         {details != null &&
                             <Modal show={showDetails} onHide={() => setShowDetails(false)}>
@@ -146,6 +181,6 @@ export default function ZestyMart() {
                     </table>
                 </div>
             </div>
-        </div>
+        </div >
     )
 }
