@@ -8,7 +8,7 @@ import { useState } from 'react'
 
 export default function AddMartItem() {
     const [category, setCategory] = useState("");
-    const [image, setImage] = useState("");
+    const [images, setImages] = useState([]);
     const [name, setName] = useState("");
     const [price, setPrice] = useState("");
     const [description, setDescription] = useState("");
@@ -26,17 +26,24 @@ export default function AddMartItem() {
         } else {
             setWeight(`${value} g`);
         }
-
     }
 
-    const submitHandler = async () => {
+    const handleFileChange = (e) => {
+        const filesArray = Array.from(e.target.files); // Convert FileList to Array
+        setImages([...images, ...filesArray]); // Append new images properly
+    };
+
+    const submitHandler = async (e) => {
         const martItems = new FormData();
         martItems.append("name", name);
-        martItems.append("image", image);
+        // martItems.append("image", images);
         martItems.append("price", price);
         martItems.append("description", description);
         martItems.append("weight", weight);
         martItems.append("category", category);
+        images.forEach((image, index) => {
+            martItems.append("images", image)
+        })
 
         try {
             const res = await axios.post("https://zesty-backend.onrender.com/zestyMart/add-mart-item", martItems, { headers: { "Content-Type": "multipart/form-data" }, withCredentials: true });
@@ -97,15 +104,21 @@ export default function AddMartItem() {
                             <label style={{ color: "#222" }}>Product Grams Per Pack</label>
                         </div>
 
-                        <div className="form-floating mt-3 mb-2">
-                            <input type="file" name="image" onChange={(e) => setImage(e.target.files[0])} id="image" placeholder='Product Image' className='in form-control' style={{ width: "100%" }} />
-                            <label style={{ color: "#222" }}>Product Image</label>
+                        <label htmlFor="" className='mt-3 text-start'>Product Images</label>
+                        <input type="file" name="images" onChange={handleFileChange} id="" className='form-control' multiple required />
+                        <p style={{ color: "#aaa" }}>*You can select multiple files</p>
+                        <div className="d-flex" style={{ width: "450px" }}>
+                            {images.map((file, index) => (
+                                <img
+                                    key={index}
+                                    src={URL.createObjectURL(file)}
+                                    alt='menu'
+                                    width='150px'
+                                    height='200px'
+                                    className='p-1'
+                                />
+                            ))}
                         </div>
-                        {image && (
-                            <div className="text-center">
-                                <img src={URL.createObjectURL(image)} alt='category' height={'200px'} />
-                            </div>
-                        )}
 
                         <Link className='btn btn-dark mt-5' onClick={submitHandler}>Add Mart Item</Link>
                     </form>
