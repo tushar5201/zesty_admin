@@ -1,12 +1,107 @@
 import React from 'react'
 import Sidebar from '../components/Sidebar'
-import CategoryController from '../controllers/CategoryController'
+import { useEffect } from 'react'
+import { useReducer } from 'react'
+import axios from "axios"
+import { toast } from "react-toastify"
+import { Row, Col } from "react-bootstrap"
+import { Link } from "react-router-dom"
+import Header from '../components/Header'
+
+const reducer = (state, action) => {
+    switch (action.type) {
+        case 'FETCH_REQUEST':
+            return { ...state, loading: true }
+        case 'FETCH_SUCCESS':
+            return { ...state, loading: false, categories: action.payload }
+        case 'FETCH_FAIL':
+            return { ...state, loading: false, error: action.payload }
+        default:
+            return state;
+    }
+}
 
 export default function CategoryScreen() {
+    const [{ loading, error, categories }, dispatch] = useReducer(reducer, {
+        loading: true,
+        error: '',
+        categories: []
+    });
+
+    useEffect(() => {
+        const fetchData = async () => {
+            dispatch({ type: 'FETCH_REQUEST' });
+            try {
+                const category = await axios.get('https://zesty-backend.onrender.com/category/get-all-category');
+                console.log(category.data);
+
+                dispatch({ type: 'FETCH_SUCCESS', payload: category.data })
+            } catch (error) {
+                dispatch({ type: 'FETCH_FAIL', payload: error.message })
+            }
+        }
+        fetchData();
+    }, []);
+
+    const handleDelete = async (id) => {
+        const res = await fetch('https://zesty-backend.onrender.com/category/delete-category', {
+            method: 'DELETE',
+            headers: { 'content-type': 'application/json' },
+            body: JSON.stringify({ id })
+        })
+
+        if (res.status === 200) {
+            toast.dark("category deleted successfully.");
+            window.location.reload(true);
+        } else if (res.status === 401) {
+            toast.dark("category delete failed.");
+        }
+    }
+
     return (
         <div className="app">
             <Sidebar id={6} />
-            <CategoryController />
+            <div style={{ width: "100%", padding: "0", margin: "0" }}>
+                <Header />
+                <div style={{ padding: "20px" }}>
+                    <Row>
+                        <Col md={10}>
+                            <h2 style={{ margin: "15px 0 5px 20px" }}>Categories</h2>
+                        </Col>
+                        <Col>
+                            <Link to={"/admin/add-category"} className='btn btn-outline-dark mt-4'>Add Category</Link>
+                        </Col>
+                    </Row>
+
+                    <table className='table mt-5'>
+                        <thead>
+                            <tr>
+                                <th>Category Id</th>
+                                <th>Category Name</th>
+                                <th>Category Image</th>
+                                <th>Update</th>
+                                <th>Delete</th>
+                            </tr>
+                        </thead>
+
+                        {loading ? <h3>Loading...</h3> : error ? { error } : (
+                            <tbody>
+
+                                {categories.slice(0).reverse().map((category, i) => (
+                                    <tr key={i} style={{ verticalAlign: "middle" }}>
+                                        <td>{category._id}</td>
+                                        <td><h4>{category.name}</h4></td>
+                                        <td><img src={`https://zesty-backend.onrender.com/category/get-category-image/${category._id}`} height={"200px"} alt={category.name} /></td>
+                                        <td><button className='btn btn-primary'>Update</button></td>
+                                        <td><button className='btn btn-danger' onClick={() => handleDelete(category._id)}>Delete</button></td>
+                                    </tr>
+
+                                ))}
+                            </tbody>
+                        )}
+                    </table>
+                </div>
+            </div>
         </div>
     )
 }
