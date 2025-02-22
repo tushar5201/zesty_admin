@@ -29,7 +29,7 @@ function App() {
             <Route path="/admin/orders" element={<OrdersScreen />} />
             <Route path="/admin/users" element={<UsersScreen />} />
             {/* <Route path="/admin/rider" element={<RiderScreen />} /> */}
-            <Route path="/admin/restaurents" element={<RestaurantScreen />} />
+            <Route path="/admin/reataurants" element={<RestaurantScreen />} />
             <Route path="/admin/coupons" element={<CouponsScreen />} />
             <Route path="/admin/categories" element={<CategoryScreen />} />
             <Route path="/admin/add-category" element={<CreateCategory />} />
