@@ -125,7 +125,7 @@ export default function UpdateCategory() {
     const fetchData = async () => {
         dispatch({ type: "FETCH_REQUEST" });
         try {
-            const res = await axios.get(`/category/get/${id}`);
+            const res = await axios.get(`https://zesty-backend.onrender.com/category/get/${id}`);
             dispatch({ type: "FETCH_SUCCESS", payload: res.data });
         } catch (error) {
             dispatch({ type: 'FETCH_FAILED', payload: error.message })
