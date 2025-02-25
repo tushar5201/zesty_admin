@@ -42,7 +42,7 @@ export function CreateCoupon() {
     const submitHandler = async (e) => {
         e.preventDefault();
 
-        const couponData = { promoCode, description, discountPercentage, discountUpto, minAmountRequired };
+        const couponData = { promoCode, description, discountPercentage, discountUpto, minAmtReq: minAmountRequired };
 
         try {
             let res;
