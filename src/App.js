@@ -12,7 +12,7 @@ import CouponsScreen from "./screens/CouponsScreen";
 import { CreateCoupon } from "./controllers/CouponsController";
 import Example from "./components/Example";
 import CategoryScreen from "./screens/CategoryScreen";
-import { CreateCategory } from "./controllers/CategoryController";
+import UpdateCategory, { CreateCategory } from "./controllers/CategoryController";
 import Notification from "./screens/Notification";
 import ZestyMart from "./screens/ZestyMart";
 import AddMartItem from "./controllers/ZestyMartController";
@@ -35,6 +35,7 @@ function App() {
             <Route path="/admin/add-coupon" element={<CreateCoupon />} />
             <Route path="/admin/categories" element={<CategoryScreen />} />
             <Route path="/admin/add-category" element={<CreateCategory />} />
+            <Route path="/admin/update-category/:id" element={<UpdateCategory />} />
             <Route path="/admin/notifications" element={<Notification />} />
             <Route path="/admin/zesty-mart" element={<ZestyMart />} />
             <Route path="/admin/add-mart-item" element={<AddMartItem />} />

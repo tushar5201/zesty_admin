@@ -39,10 +39,6 @@ export default function Notification() {
   const [show, setShow] = useState(false);
   const [data, setData] = useState();
 
-  const fetchUnverified = async () => {
-    const res = await axios.get("");
-  }
-
   useEffect(() => {
     socket.emit("admin_join");
     socket.on("new_restaurant", (data) => {
@@ -59,9 +55,11 @@ export default function Notification() {
       const res = await axios.put(`https://zesty-backend.onrender.com/restaurant/update-verification/${id}`, { verified: status });
       if (res.status === 200) {
         toast.dark("successfully verified");
+        setShow(false);
         window.location.reload(true);
       } else {
         toast.dark("error in verifying");
+        setShow(false);
       }
       // setRestaurant(restaurant.map(r => (r._id === id ? { ...r, verified: status } : r)));
     } catch (error) {

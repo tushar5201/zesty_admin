@@ -92,7 +92,7 @@ export default function CategoryScreen() {
                                         <td>{category._id}</td>
                                         <td><h4>{category.name}</h4></td>
                                         <td><img src={`https://zesty-backend.onrender.com/category/get-category-image/${category._id}`} height={"200px"} alt={category.name} /></td>
-                                        <td><button className='btn btn-primary'>Update</button></td>
+                                        <td><Link className='btn btn-primary' to={`/admin/update-category/${category._id}`}>Update</Link></td>
                                         <td><button className='btn btn-danger' onClick={() => handleDelete(category._id)}>Delete</button></td>
                                     </tr>
 
