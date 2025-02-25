@@ -98,7 +98,7 @@ export default function UpdateCategory() {
         categoryData.append("name", name);
         categoryData.append("image", image);
         try {
-            const res = await axios.put(
+            const res = await axios.post(
                 "https://zesty-backend.onrender.com/category/update-category",
                 categoryData,
                 {
@@ -106,8 +106,6 @@ export default function UpdateCategory() {
                     withCredentials: true  // Ensure credentials are included
                 }
             );
-            console.log(res.headers);
-
             if (res.status === 200) {
                 toast.dark("Category Updated");
                 navigate("/admin/categories");
