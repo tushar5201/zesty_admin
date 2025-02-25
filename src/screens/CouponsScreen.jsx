@@ -90,7 +90,7 @@ export default function CouponScreen() {
                                         <td>{coupon.description}</td>
                                         <td>{coupon.discountPercentage}%</td>
                                         <td>{coupon.discountUpto}</td>
-                                        <td>{coupon.minAmountRequired}</td>
+                                        <td>{coupon.minAmtReq}</td>
                                         <td><Link to={`/admin/update-coupon/${coupon._id}`} className='btn btn-primary'>Update</Link></td>
                                         <td><button className='btn btn-danger' onClick={() => handleDelete(coupon._id)}>Delete</button></td>
                                     </tr>

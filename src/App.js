@@ -9,7 +9,7 @@ import UsersScreen from "./screens/UsersScreen";
 // import RiderScreen from "./screens/RiderScreen";
 import RestaurantScreen from "./screens/RestaurantScreen";
 import CouponsScreen from "./screens/CouponsScreen";
-import { CreateCoupon } from "./controllers/CouponsController";
+import UpdateCoupons, { CreateCoupon } from "./controllers/CouponsController";
 import Example from "./components/Example";
 import CategoryScreen from "./screens/CategoryScreen";
 import UpdateCategory, { CreateCategory } from "./controllers/CategoryController";
@@ -33,6 +33,7 @@ function App() {
             <Route path="/admin/reataurants" element={<RestaurantScreen />} />
             <Route path="/admin/coupons" element={<CouponsScreen />} />
             <Route path="/admin/add-coupon" element={<CreateCoupon />} />
+            <Route path="/admin/update-coupon/:id" element={<UpdateCoupons />} />
             <Route path="/admin/categories" element={<CategoryScreen />} />
             <Route path="/admin/add-category" element={<CreateCategory />} />
             <Route path="/admin/update-category/:id" element={<UpdateCategory />} />
