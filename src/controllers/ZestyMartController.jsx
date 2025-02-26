@@ -46,7 +46,7 @@ export default function AddMartItem() {
         })
 
         try {
-            const res = await axios.post("/zestyMart/add-mart-item", martItems, { headers: { "Content-Type": "multipart/form-data" }, withCredentials: true });
+            const res = await axios.post("https://zesty-backend.onrender.com/zestyMart/add-mart-item", martItems, { headers: { "Content-Type": "multipart/form-data" }, withCredentials: true });
             if (res.status === 200) {
                 toast.dark("Mart Item Added");
                 navigate("/admin/zesty-mart");
