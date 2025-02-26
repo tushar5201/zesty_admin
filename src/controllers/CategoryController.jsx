@@ -139,7 +139,7 @@ export default function UpdateCategory() {
 
             <Container>
                 <Card className='text-center mt-5 w-50 mx-auto p-5'>
-                    <h3><u>Add Category</u></h3>
+                    <h3><u>Update Category</u></h3>
 
                     {loading ? <h1>Loading...</h1> : error ? error :
                         <form>

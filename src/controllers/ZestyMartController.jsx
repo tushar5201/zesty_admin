@@ -152,9 +152,8 @@ export function UpdateZestyMart() {
     const [name, setName] = useState("");
     const [price, setPrice] = useState("");
     const [description, setDescription] = useState("");
-    // const [grms, setGrms] = useState("");
     const [weight, setWeight] = useState("");
-    const [existingImgs, setExistingImages] = useState("");
+    const [existingImgs, setExistingImgs] = useState(null);
     const navigate = useNavigate();
     const { id } = useParams();
 
@@ -173,6 +172,22 @@ export function UpdateZestyMart() {
         const filesArray = Array.from(e.target.files); // Convert FileList to Array
         setImages([...images, ...filesArray]); // Append new images properly
     };
+
+    const fetchData = async () => {
+        dispatch({ type: "FETCH_REQUEST" });
+        try {
+            const res = await axios.get(`/zestyMart/get/${id}`);
+            setExistingImgs(res.data.images);
+            dispatch({ type: "FETCH_SUCCESS", payload: res.data });
+        } catch (error) {
+            dispatch({ type: 'FETCH_FAILED', payload: error.message })
+        }
+    }
+
+    const handleImageDelete = (index) => {
+        const updatedImages = existingImgs.filter((_, i) => i !== index);
+        setExistingImgs(updatedImages);
+    }
 
     const submitHandler = async () => {
         const martItemData = new FormData();
@@ -204,15 +219,6 @@ export function UpdateZestyMart() {
             if (res.status === 200) {
                 toast.dark("Mart item Updated");
                 navigate("/admin/zesty-mart");
-
-                // Update existingImgs with new images
-                const newImageObjects = images.map((file) => ({
-                    data: URL.createObjectURL(file), // Create a temporary URL for display
-                }));
-                setExistingImages([...existingImgs, ...newImageObjects]);
-
-                // Clear the images state
-                setImages([]);
             } else if (res.status === 401) {
                 toast.dark("Mart update failed");
             } else {
@@ -224,35 +230,10 @@ export function UpdateZestyMart() {
         }
     };
 
-    const fetchData = async () => {
-        dispatch({ type: "FETCH_REQUEST" });
-        try {
-            const res = await axios.get(`/zestyMart/get/${id}`);
-            dispatch({ type: "FETCH_SUCCESS", payload: res.data });
-        } catch (error) {
-            dispatch({ type: 'FETCH_FAILED', payload: error.message })
-        }
-    }
-
-    const fetchImages = async () => {
-        try {
-            const response = await fetch(`https://zesty-backend.onrender.com/zestyMart/get-martItem-images/${id}`);
-            const data = await response.json();
-            setExistingImages(data);
-        } catch (error) {
-            console.error("Error fetching images", error);
-        }
-    }
-
-    const handleImageDelete = (index) => {
-        const updatedImages = existingImgs.filter((_, i) => i !== index);
-        setExistingImages(updatedImages);
-    }
-
     useEffect(() => {
         fetchData();
-        fetchImages();
-    }, [])
+        // fetchImages();
+    }, []);
     return (
         <div style={{ width: "100%", padding: "0", margin: "0" }}>
             <Header />
@@ -311,17 +292,12 @@ export function UpdateZestyMart() {
                             </div>
                             <table className='table'>
                                 <tbody>
-                                    {existingImgs != "" && existingImgs.map((img, index) => (
-                                        <tr key={index}>
+                                    {existingImgs !== null && existingImgs.map((img, index) => (
+                                        <tr>
                                             <td>
-                                                <img
-                                                    key={index}
-                                                    src={img.data} // ✅ Correct: Use Base64 encoding
-                                                    alt={`Product ${index}`}
-                                                    style={{ width: "200px", height: "200px", objectFit: "cover", borderRadius: "10px" }}
-                                                />
+                                                <img src={img} alt={index} style={{ width: "200px", height: "200px", objectFit: "cover", borderRadius: "10px" }} />
                                             </td>
-                                            <td><button onClick={() => handleImageDelete(index)} className='btn btn-danger'>Delete</button></td>
+                                            <td><button className='btn btn-danger' onClick={() => handleImageDelete(index)}>Delete</button></td>
                                         </tr>
                                     ))}
                                 </tbody>
