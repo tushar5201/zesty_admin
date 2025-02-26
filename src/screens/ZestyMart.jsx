@@ -32,7 +32,7 @@ export default function ZestyMart() {
     const [showDetails, setShowDetails] = useState(false);
     const [details, setDetails] = useState(null);
     const [category, setCategory] = useState("");
-    const [images, setImages] = useState([]);
+    // const [images, setImages] = useState([]);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -65,142 +65,134 @@ export default function ZestyMart() {
     const handleShow = async (details) => {
         setDetails(details);
         setShowDetails(true);
-        try {
-            const response = await fetch(`https://zesty-backend.onrender.com/zestyMart/get-martItem-images/${details._id}`);
-            const data = await response.json();
-            console.log(data);
-            setImages(data);
-            // console.log(images);
-        } catch (error) {
-        console.error("Error fetching images", error);
     }
-}
 
-return (
-    <div className='app'>
-        <Sidebar id={2} />
-        <div style={{ width: "100%", overflow: "hidden" }}>
-            <Header />
+    return (
+        <div className='app'>
+            <Sidebar id={2} />
+            <div style={{ width: "100%", overflow: "hidden" }}>
+                <Header />
 
-            <div style={{ padding: "20px" }}>
-                <Row>
-                    <Col md={7}>
-                        <h2 style={{ margin: "15px 0 5px 20px" }}>Mart Items</h2>
-                    </Col>
-                    <Col md={3}>
-                        <select name="category" id="" onChange={(e) => setCategory(e.target.value)} className='in form-select mt-4 w-30'>
-                            <option value="" disabled selected>Select category</option>
-                            <option value="">All</option>
-                            <option value="Fresh">Fresh</option>
-                            <option value="Grocery">Grocery</option>
-                            <option value="Electronics">Electronics</option>
-                            <option value="Beauty">Beauty</option>
-                            <option value="Home">Home</option>
-                            <option value="Kids">Kids</option>
-                        </select>
-                    </Col>
-                    <Col>
-                        <Link to={"/admin/add-mart-item"} className='btn btn-outline-dark mt-4'>Add Mart Item</Link>
-                    </Col>
-                </Row>
+                <div style={{ padding: "20px" }}>
+                    <Row>
+                        <Col md={7}>
+                            <h2 style={{ margin: "15px 0 5px 20px" }}>Mart Items</h2>
+                        </Col>
+                        <Col md={3}>
+                            <select name="category" id="" onChange={(e) => setCategory(e.target.value)} className='in form-select mt-4 w-30'>
+                                <option value="" disabled selected>Select category</option>
+                                <option value="">All</option>
+                                <option value="Fresh">Fresh</option>
+                                <option value="Grocery">Grocery</option>
+                                <option value="Electronics">Electronics</option>
+                                <option value="Beauty">Beauty</option>
+                                <option value="Home">Home</option>
+                                <option value="Kids">Kids</option>
+                            </select>
+                        </Col>
+                        <Col>
+                            <Link to={"/admin/add-mart-item"} className='btn btn-outline-dark mt-4'>Add Mart Item</Link>
+                        </Col>
+                    </Row>
 
-                <table className='table mt-5'>
-                    <thead>
-                        <tr>
-                            <th>Product Id</th>
-                            <th>product Name</th>
-                            <th>Details</th>
-                            <th>Update</th>
-                            <th>Delete</th>
-                        </tr>
-                    </thead>
+                    <table className='table mt-5'>
+                        <thead>
+                            <tr>
+                                <th>Product Id</th>
+                                <th>product Name</th>
+                                <th>Details</th>
+                                <th>Update</th>
+                                <th>Delete</th>
+                            </tr>
+                        </thead>
 
-                    {
-                        category === "" ? (
-                            <>
-                                {loading ? <h3>Loading...</h3> : error ? { error } : (
-                                    <tbody>
-                                        {martItems.slice(0).reverse().map((martItem, i) => (
-                                            <tr key={i} style={{ verticalAlign: "middle" }}>
-                                                <td>{martItem._id}</td>
-                                                <td><h4>{martItem.name}</h4></td>
-                                                <td><button onClick={() => handleShow(martItem)} style={{ textDecoration: "underline", background: "none", padding: 0, width: "100px" }}>Details</button></td>
-                                                <td><button className='btn btn-primary'>Update</button></td>
-                                                <td><button className='btn btn-danger' onClick={() => handleDelete(martItem._id)}>Delete</button></td>
+                        {
+                            category === "" ? (
+                                <>
+                                    {loading ? <h3>Loading...</h3> : error ? { error } : (
+                                        <tbody>
+                                            {martItems.slice(0).reverse().map((martItem, i) => (
+                                                <tr key={i} style={{ verticalAlign: "middle" }}>
+                                                    <td>{martItem._id}</td>
+                                                    <td><h4>{martItem.name}</h4></td>
+                                                    <td><button onClick={() => handleShow(martItem)} style={{ textDecoration: "underline", background: "none", padding: 0, width: "100px" }}>Details</button></td>
+                                                    <td><Link to={`/admin/update-mart-item/${martItem._id}`} className='btn btn-primary'>Update</Link></td>
+                                                    <td><button className='btn btn-danger' onClick={() => handleDelete(martItem._id)}>Delete</button></td>
+                                                </tr>
+                                            ))}
+                                        </tbody>
+                                    )}
+                                </>
+                            ) : (
+                                <>
+                                    {loading ? <h3>Loading...</h3> : error ? { error } : (
+                                        <tbody>
+                                            {martItems.slice(0).reverse().map((martItem, i) => (
+                                                martItem.category === category &&
+                                                <tr key={i} style={{ verticalAlign: "middle" }}>
+                                                    <td>{martItem._id}</td>
+                                                    <td><h4>{martItem.name}</h4></td>
+                                                    <td><button onClick={() => handleShow(martItem)} style={{ textDecoration: "underline", background: "none", padding: 0, width: "100px" }}>Details</button></td>
+                                                    <td><Link to={`/admin/update-mart-item/${martItem._id}`} className='btn btn-primary'>Update</Link></td>
+                                                    <td><button className='btn btn-danger' onClick={() => handleDelete(martItem._id)}>Delete</button></td>
+                                                </tr>
+                                            ))}
+                                        </tbody>
+                                    )}
+                                </>
+                            )
+                        }
+
+                        {details != null &&
+                            <Modal show={showDetails} onHide={() => setShowDetails(false)}>
+                                <Modal.Header closeButton>
+                                    <Modal.Title>{details.restaurantName}</Modal.Title>
+                                </Modal.Header>
+                                <Modal.Body>
+                                    Product Name : <h2 className='ms-3'>{details.name}</h2>
+                                    <div style={{ display: "flex", gap: "10px", flexWrap: "wrap" }}>
+                                        {
+                                            details.images.map((img, index) => (
+                                                <img
+                                                    key={index}
+                                                    src={img}
+                                                    alt={`Product ${index}`}
+                                                    style={{ width: "200px", height: "200px", objectFit: "cover", borderRadius: "10px" }}
+                                                />
+                                            ))
+                                        }
+                                    </div>
+                                    <table className='table'>
+                                        <tbody>
+                                            <tr>
+                                                <td>Product Price</td>
+                                                <td>{details.price}</td>
                                             </tr>
-                                        ))}
-                                    </tbody>
-                                )}
-                            </>
-                        ) : (
-                            <>
-                                {loading ? <h3>Loading...</h3> : error ? { error } : (
-                                    <tbody>
-                                        {martItems.slice(0).reverse().map((martItem, i) => (
-                                            martItem.category === category &&
-                                            <tr key={i} style={{ verticalAlign: "middle" }}>
-                                                <td>{martItem._id}</td>
-                                                <td><h4>{martItem.name}</h4></td>
-                                                <td><button onClick={() => handleShow(martItem)} style={{ textDecoration: "underline", background: "none", padding: 0, width: "100px" }}>Details</button></td>
-                                                <td><button className='btn btn-primary'>Update</button></td>
-                                                <td><button className='btn btn-danger' onClick={() => handleDelete(martItem._id)}>Delete</button></td>
+                                            <tr>
+                                                <td>Product Description</td>
+                                                <td>{details.description}</td>
                                             </tr>
-                                        ))}
-                                    </tbody>
-                                )}
-                            </>
-                        )
-                    }
-
-                    {details != null &&
-                        <Modal show={showDetails} onHide={() => setShowDetails(false)}>
-                            <Modal.Header closeButton>
-                                <Modal.Title>{details.restaurantName}</Modal.Title>
-                            </Modal.Header>
-                            <Modal.Body>
-                                Product Name : <h2 className='ms-3'>{details.name}</h2>
-                                {/* Product Image : <br /><img className='ms-5' src={`https://zesty-backend.onrender.com/zestyMart/get-martItem-image/${details._id}`} alt={details.name} width={250} /><br /> */}
-                                <div style={{ display: "flex", gap: "10px", flexWrap: "wrap" }}>
-                                    {images.map((img, index) => (
-                                        <img
-                                            key={index}
-                                            src={img.data} // ✅ Correct: Use Base64 encoding
-                                            alt={`Product ${index}`}
-                                            style={{ width: "200px", height: "200px", objectFit: "cover", borderRadius: "10px" }}
-                                        />
-                                    ))}
-                                </div>
-                                <table className='table'>
-                                    <tbody>
-                                        <tr>
-                                            <td>Product Price</td>
-                                            <td>{details.price}</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Product Description</td>
-                                            <td>{details.description}</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Product Servings(weight)</td>
-                                            <td>{details.weight}</td>
-                                        </tr>
-                                        <tr>
-                                            <td>Product Category</td>
-                                            <td>{details.category}</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </Modal.Body>
-                            <Modal.Footer>
-                                <button className="btn btn-secondary" onClick={() => setShowDetails(false)}>
-                                    Close
-                                </button>
-                            </Modal.Footer>
-                        </Modal>
-                    }
-                </table>
+                                            <tr>
+                                                <td>Product Servings(weight)</td>
+                                                <td>{details.weight}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Product Category</td>
+                                                <td>{details.category}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </Modal.Body>
+                                <Modal.Footer>
+                                    <button className="btn btn-secondary" onClick={() => setShowDetails(false)}>
+                                        Close
+                                    </button>
+                                </Modal.Footer>
+                            </Modal>
+                        }
+                    </table>
+                </div>
             </div>
-        </div>
-    </div >
-)
+        </div >
+    )
 }

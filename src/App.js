@@ -15,7 +15,7 @@ import CategoryScreen from "./screens/CategoryScreen";
 import UpdateCategory, { CreateCategory } from "./controllers/CategoryController";
 import Notification from "./screens/Notification";
 import ZestyMart from "./screens/ZestyMart";
-import AddMartItem from "./controllers/ZestyMartController";
+import AddMartItem, { UpdateZestyMart } from "./controllers/ZestyMartController";
 
 function App() {
   return (
@@ -40,6 +40,7 @@ function App() {
             <Route path="/admin/notifications" element={<Notification />} />
             <Route path="/admin/zesty-mart" element={<ZestyMart />} />
             <Route path="/admin/add-mart-item" element={<AddMartItem />} />
+            <Route path="/admin/update-mart-item/:id" element={<UpdateZestyMart />} />
             <Route path="/example" element={<Example />} />
           </Routes>
         </main>

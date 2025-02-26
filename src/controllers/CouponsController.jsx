@@ -159,7 +159,7 @@ export default function UpdateCoupon() {
         couponData.append("minAmtReq", minAmtReq);
 
         try {
-            const res = await axios.post(`/coupon/update-coupon/${id}`, couponData, { headers: { "Content-Type": "multipart/form-data" }, withCredentials: true });
+            const res = await axios.post(`https://zesty-backend.onrender.com/coupon/update-coupon/${id}`, couponData, { headers: { "Content-Type": "multipart/form-data" }, withCredentials: true });
             // const res = await fetch(`/coupon/update-coupon/${id}`, {
             //     method: "POST",
             //     withCredentials: true,
@@ -182,7 +182,7 @@ export default function UpdateCoupon() {
     const fetchData = async () => {
         dispatch({ type: "FETCH_REQUEST" });
         try {
-            const res = await axios.get(`/coupon/get/${id}`);
+            const res = await axios.get(`https://zesty-backend.onrender.com/coupon/get/${id}`);
             dispatch({ type: "FETCH_SUCCESS", payload: res.data });
         } catch (error) {
             dispatch({ type: 'FETCH_FAILED', payload: error.message })
