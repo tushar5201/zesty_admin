@@ -152,7 +152,7 @@ export default function UpdateCategory() {
                                 <input type="file" name="image" onChange={(e) => setImage(e.target.files[0])} id="image" placeholder='Category name' className='in form-control' style={{ width: "100%" }} />
                                 <label style={{ color: "#222" }}>Category Image</label>
                             </div>
-                            <img src={`https://zesty-backend.onrender.com/category/get-category-image/${category._id}`} height={"200px"} alt={category.name} /> <br />
+                            <img src={category.image} height={"200px"} alt={category.name} /> <br />
                             {image && (
                                 <div className="text-center">
                                     <img src={URL.createObjectURL(image)} alt='category' height={'200px'} />

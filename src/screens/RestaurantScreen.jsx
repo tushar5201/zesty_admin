@@ -104,7 +104,7 @@ export default function RestaurantScreen() {
                   <Modal.Title>{data.restaurantName}</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                  Restaurant Logo : <br /><img className='ms-5' src={`https://zesty-backend.onrender.com/restaurant/get-restaurant-logo/${data._id}`} alt={data.restaurantName} width={250} /><br />
+                  Restaurant Logo : <br /><img className='ms-5' src={data.logoImg} alt={data.restaurantName} width={250} /><br />
                   <table className='table'>
                     <tbody>
                       <tr>
