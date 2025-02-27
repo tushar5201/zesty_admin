@@ -31,6 +31,7 @@ export default function RestaurantScreen() {
 
   const [showDetails, setShowDetails] = useState(false);
   const [data, setData] = useState(null);
+  const [search, setSearch] = useState("");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -72,7 +73,14 @@ export default function RestaurantScreen() {
         <Header />
 
         <div style={{ padding: "20px" }}>
-          <h2 style={{ margin: "15px 0 5px 20px" }}>Restaurants</h2>
+          <Row>
+            <Col md={8}>
+              <h2 style={{ margin: "15px 0 5px 20px" }}>Restaurants</h2>
+            </Col>
+            <Col>
+              <input type="text" value={search} placeholder='Search..' className='in form-control mt-4' onChange={(e) => setSearch(e.target.value)} />
+            </Col>
+          </Row>
 
           <table className='table mt-5'>
             <thead>
@@ -86,7 +94,21 @@ export default function RestaurantScreen() {
 
             {loading ? <h3>Loading...</h3> : error ? { error } : (
               <tbody>
-                {restaurants.slice(0).reverse().map((restaurant, i) => (
+                {restaurants.slice(0).reverse()
+                  .filter((item) => {
+                    const searchTerm = search.toLowerCase();
+                    const name = item.restaurantName.toLowerCase();
+                    return searchTerm && name.includes(searchTerm);
+                  })
+                  .map((restaurant, i) => (
+                    <tr key={i} style={{ verticalAlign: "middle" }}>
+                      <td>{restaurant._id}</td>
+                      <td><h4>{restaurant.restaurantName}</h4></td>
+                      <td><button onClick={() => handleShow(restaurant)} style={{ textDecoration: "underline", background: "none", padding: 0, width: "100px" }}>Details</button></td>
+                      <td><button className='btn btn-danger' onClick={() => handleDelete(restaurant._id)}>Delete</button></td>
+                    </tr>
+                  ))}
+                {search === "" && restaurants.slice(0).reverse().map((restaurant, i) => (
                   <tr key={i} style={{ verticalAlign: "middle" }}>
                     <td>{restaurant._id}</td>
                     <td><h4>{restaurant.restaurantName}</h4></td>

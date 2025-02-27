@@ -32,6 +32,7 @@ export default function ZestyMart() {
     const [showDetails, setShowDetails] = useState(false);
     const [details, setDetails] = useState(null);
     const [category, setCategory] = useState("");
+    const [search, setSearch] = useState("");
     // const [images, setImages] = useState([]);
 
     useEffect(() => {
@@ -75,8 +76,11 @@ export default function ZestyMart() {
 
                 <div style={{ padding: "20px" }}>
                     <Row>
-                        <Col md={7}>
+                        <Col md={5}>
                             <h2 style={{ margin: "15px 0 5px 20px" }}>Mart Items</h2>
+                        </Col>
+                        <Col md={2}>
+                            <input type="text" value={search} placeholder='Search..' className='in form-control mt-4' onChange={(e) => setSearch(e.target.value)} />
                         </Col>
                         <Col md={3}>
                             <select name="category" id="" onChange={(e) => setCategory(e.target.value)} className='in form-select mt-4 w-30'>
@@ -111,7 +115,7 @@ export default function ZestyMart() {
                                 <>
                                     {loading ? <h3>Loading...</h3> : error ? { error } : (
                                         <tbody>
-                                            {martItems.slice(0).reverse().map((martItem, i) => (
+                                            {search === "" && martItems.slice(0).reverse().map((martItem, i) => (
                                                 <tr key={i} style={{ verticalAlign: "middle" }}>
                                                     <td>{martItem._id}</td>
                                                     <td><h4>{martItem.name}</h4></td>
@@ -120,6 +124,22 @@ export default function ZestyMart() {
                                                     <td><button className='btn btn-danger' onClick={() => handleDelete(martItem._id)}>Delete</button></td>
                                                 </tr>
                                             ))}
+
+                                            {martItems.slice(0).reverse()
+                                                .filter((item) => {
+                                                    const searchTerm = search.toLowerCase();
+                                                    const name = item.name.toLowerCase();
+                                                    return searchTerm && name.startsWith(searchTerm);
+                                                })
+                                                .map((martItem, i) => (
+                                                    <tr key={i} style={{ verticalAlign: "middle" }}>
+                                                        <td>{martItem._id}</td>
+                                                        <td><h4>{martItem.name}</h4></td>
+                                                        <td><button onClick={() => handleShow(martItem)} style={{ textDecoration: "underline", background: "none", padding: 0, width: "100px" }}>Details</button></td>
+                                                        <td><Link to={`/admin/update-mart-item/${martItem._id}`} className='btn btn-primary'>Update</Link></td>
+                                                        <td><button className='btn btn-danger' onClick={() => handleDelete(martItem._id)}>Delete</button></td>
+                                                    </tr>
+                                                ))}
                                         </tbody>
                                     )}
                                 </>
@@ -127,7 +147,7 @@ export default function ZestyMart() {
                                 <>
                                     {loading ? <h3>Loading...</h3> : error ? { error } : (
                                         <tbody>
-                                            {martItems.slice(0).reverse().map((martItem, i) => (
+                                            {search === "" && martItems.slice(0).reverse().map((martItem, i) => (
                                                 martItem.category === category &&
                                                 <tr key={i} style={{ verticalAlign: "middle" }}>
                                                     <td>{martItem._id}</td>
@@ -137,6 +157,22 @@ export default function ZestyMart() {
                                                     <td><button className='btn btn-danger' onClick={() => handleDelete(martItem._id)}>Delete</button></td>
                                                 </tr>
                                             ))}
+                                            {martItems.slice(0).reverse()
+                                                .filter((item) => {
+                                                    const searchTerm = search.toLowerCase();
+                                                    const name = item.name.toLowerCase();
+                                                    return searchTerm && name.startsWith(searchTerm);
+                                                })
+                                                .map((martItem, i) => (
+                                                    martItem.category === category &&
+                                                    <tr key={i} style={{ verticalAlign: "middle" }}>
+                                                        <td>{martItem._id}</td>
+                                                        <td><h4>{martItem.name}</h4></td>
+                                                        <td><button onClick={() => handleShow(martItem)} style={{ textDecoration: "underline", background: "none", padding: 0, width: "100px" }}>Details</button></td>
+                                                        <td><Link to={`/admin/update-mart-item/${martItem._id}`} className='btn btn-primary'>Update</Link></td>
+                                                        <td><button className='btn btn-danger' onClick={() => handleDelete(martItem._id)}>Delete</button></td>
+                                                    </tr>
+                                                ))}
                                         </tbody>
                                     )}
                                 </>

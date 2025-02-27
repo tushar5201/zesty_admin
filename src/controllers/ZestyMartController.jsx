@@ -14,6 +14,7 @@ export default function AddMartItem() {
     const [description, setDescription] = useState("");
     const [grms, setGrms] = useState("");
     const [weight, setWeight] = useState("");
+    const [pack, setPack] = useState("");
 
     const navigate = useNavigate();
 
@@ -34,33 +35,42 @@ export default function AddMartItem() {
     };
 
     const submitHandler = async (e) => {
-        const martItems = new FormData();
-        martItems.append("name", name);
-        // martItems.append("image", images);
-        martItems.append("price", price);
-        martItems.append("description", description);
-        martItems.append("weight", weight);
-        martItems.append("category", category);
-        images.forEach((image, index) => {
-            martItems.append("images", image)
-        })
 
-        try {
-            const res = await axios.post("https://zesty-backend.onrender.com/zestyMart/add-mart-item", martItems, { headers: { "Content-Type": "multipart/form-data" }, withCredentials: true });
-            if (res.status === 200) {
-                toast.dark("Mart Item Added");
-                navigate("/admin/zesty-mart");
-            } else if (res.status === 401) {
-                toast.dark("Mart Item already exist");
-            } else if (res.status === 405) {
-                toast.dark("Mart item saving failed");
-            } else {
-                toast.dark("internal server error");
+        if (name === "" && price === "" && description === "" && weight === "" && pack === "" && category === "") {
+            toast.dark("All fields are mandatory");
+        } else if(price < "1") {
+            toast.dark("Price should greater than 1");
+        } else {
+
+            const martItems = new FormData();
+            martItems.append("name", name);
+            // martItems.append("image", images);
+            martItems.append("price", price);
+            martItems.append("description", description);
+            martItems.append("weight", weight);
+            martItems.append("pack", pack);
+            martItems.append("category", category);
+            images.forEach((image, index) => {
+                martItems.append("images", image)
+            })
+
+            try {
+                const res = await axios.post("https://zesty-backend.onrender.com/zestyMart/add-mart-item", martItems, { headers: { "Content-Type": "multipart/form-data" }, withCredentials: true });
+                if (res.status === 200) {
+                    toast.dark("Mart Item Added");
+                    navigate("/admin/zesty-mart");
+                } else if (res.status === 401) {
+                    toast.dark("Mart Item already exist");
+                } else if (res.status === 405) {
+                    toast.dark("Mart item saving failed");
+                } else {
+                    toast.dark("internal server error");
+                }
+            } catch (error) {
+
+                console.log(error);
+                toast.dark("failed to add.")
             }
-        } catch (error) {
-
-            console.log(error);
-            toast.dark("failed to add.")
         }
     }
 
@@ -85,23 +95,28 @@ export default function AddMartItem() {
                         </select>
 
                         <div className="form-floating mt-3 mb-2">
-                            <input type="text" name="name" value={name} onChange={(e) => setName(e.target.value)} id="name" placeholder='Product name' className='in form-control' style={{ width: "100%" }} />
+                            <input type="text" name="name" value={name} onChange={(e) => setName(e.target.value)} id="name" placeholder='Product name' className='in form-control' style={{ width: "100%" }} required />
                             <label style={{ color: "#222" }}>Product Name</label>
                         </div>
 
                         <div className="form-floating mt-3 mb-2">
-                            <input type="number" name="price" value={price} onChange={(e) => setPrice(e.target.value)} id="price" placeholder='Product price' className='in form-control' style={{ width: "100%" }} />
+                            <input type="number" name="price" min={1} value={price} onChange={(e) => setPrice(e.target.value)} id="price" placeholder='Product price' className='in form-control' style={{ width: "100%" }} aria-required />
                             <label style={{ color: "#222" }}>Product Price</label>
                         </div>
 
                         <div className="form-floating mt-3 mb-2">
-                            <input type="text" name="description" value={description} onChange={(e) => setDescription(e.target.value)} id="description" placeholder='Product description' className='in form-control' style={{ width: "100%" }} />
+                            <input type="text" name="description" value={description} onChange={(e) => setDescription(e.target.value)} id="description" placeholder='Product description' className='in form-control' style={{ width: "100%" }} required />
                             <label style={{ color: "#222" }}>Product Description</label>
                         </div>
 
                         <div className="form-floating mt-3 mb-2">
-                            <input type="number" name="grms" value={grms} onChange={handleChange} id="grms" placeholder='Product grms' className='in form-control' style={{ width: "100%" }} />
+                            <input type="number" name="grms" value={grms} onChange={handleChange} id="grms" placeholder='Product grms' className='in form-control' style={{ width: "100%" }} required />
                             <label style={{ color: "#222" }}>Product Grams Per Pack</label>
+                        </div>
+
+                        <div className="form-floating mt-3 mb-2">
+                            <input type="number" name="grms" value={pack} onChange={(e) => setPack(e.target.value)} min={1} id="grms" placeholder='Product grms' className='in form-control' style={{ width: "100%" }} required />
+                            <label style={{ color: "#222" }}>Product Pack of</label>
                         </div>
 
                         <label htmlFor="" className='mt-3 text-start'>Product Images</label>

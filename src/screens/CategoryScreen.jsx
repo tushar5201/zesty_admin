@@ -7,6 +7,7 @@ import { toast } from "react-toastify"
 import { Row, Col } from "react-bootstrap"
 import { Link } from "react-router-dom"
 import Header from '../components/Header'
+import { useState } from 'react'
 
 const reducer = (state, action) => {
     switch (action.type) {
@@ -27,6 +28,8 @@ export default function CategoryScreen() {
         error: '',
         categories: []
     });
+
+    const [search, setSearch] = useState("");
 
     useEffect(() => {
         const fetchData = async () => {
@@ -65,8 +68,11 @@ export default function CategoryScreen() {
                 <Header />
                 <div style={{ padding: "20px" }}>
                     <Row>
-                        <Col md={10}>
+                        <Col md={8}>
                             <h2 style={{ margin: "15px 0 5px 20px" }}>Categories</h2>
+                        </Col>
+                        <Col>
+                            <input type="text" value={search} placeholder='Search..' className='in form-control mt-4' onChange={(e) => setSearch(e.target.value)} />
                         </Col>
                         <Col>
                             <Link to={"/admin/add-category"} className='btn btn-outline-dark mt-4'>Add Category</Link>
@@ -87,7 +93,25 @@ export default function CategoryScreen() {
                         {loading ? <h3>Loading...</h3> : error ? { error } : (
                             <tbody>
 
-                                {categories.slice(0).reverse().map((category, i) => (
+                                {categories.slice(0).reverse()
+                                .filter((item) => {
+                                    const searchTerm = search.toLowerCase();
+                                    const name = item.name.toLowerCase();
+                                    return searchTerm && name.includes(searchTerm);
+                                })
+                                .map((category, i) => (
+                                    <tr key={i} style={{ verticalAlign: "middle" }}>
+                                        <td>{category._id}</td>
+                                        <td><h4>{category.name}</h4></td>
+                                        {/* <td><img src={`https://zesty-backend.onrender.com/category/get-category-image/${category._id}`} height={"200px"} alt={category.name} /></td> */}
+                                        <td><img src={category.image} height={"200px"} alt={category.name} /></td>
+                                        <td><Link className='btn btn-primary' to={`/admin/update-category/${category._id}`}>Update</Link></td>
+                                        <td><button className='btn btn-danger' onClick={() => handleDelete(category._id)}>Delete</button></td>
+                                    </tr>
+
+                                ))}
+
+                                {search === "" && categories.slice(0).reverse().map((category, i) => (
                                     <tr key={i} style={{ verticalAlign: "middle" }}>
                                         <td>{category._id}</td>
                                         <td><h4>{category.name}</h4></td>

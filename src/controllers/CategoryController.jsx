@@ -43,12 +43,12 @@ export function CreateCategory() {
 
                     <form>
                         <div className="form-floating mt-5 mb-2">
-                            <input type="text" name="name" value={name} onChange={(e) => setName(e.target.value)} id="name" placeholder='Category name' className='in form-control' style={{ width: "100%" }} />
+                            <input type="text" name="name" value={name} onChange={(e) => setName(e.target.value)} id="name" placeholder='Category name' className='in form-control' style={{ width: "100%" }} required />
                             <label style={{ color: "#222" }}>Category Name</label>
                         </div>
 
                         <div className="form-floating mt-3 mb-2">
-                            <input type="file" name="image" onChange={(e) => setImage(e.target.files[0])} id="image" placeholder='Category name' className='in form-control' style={{ width: "100%" }} />
+                            <input type="file" name="image" onChange={(e) => setImage(e.target.files[0])} id="image" placeholder='Category name' className='in form-control' style={{ width: "100%" }} required />
                             <label style={{ color: "#222" }}>Category Image</label>
                         </div>
                         {image && (
@@ -144,12 +144,12 @@ export default function UpdateCategory() {
                     {loading ? <h1>Loading...</h1> : error ? error :
                         <form>
                             <div className="form-floating mt-5 mb-2">
-                                <input type="text" name="name" defaultValue={category.name} onChange={(e) => setName(e.target.value)} id="name" placeholder='Category name' className='in form-control' style={{ width: "100%" }} />
+                                <input type="text" name="name" defaultValue={category.name} onChange={(e) => setName(e.target.value)} id="name" placeholder='Category name' className='in form-control' style={{ width: "100%" }} required />
                                 <label style={{ color: "#222" }}>Category Name</label>
                             </div>
 
                             <div className="form-floating mt-3 mb-2">
-                                <input type="file" name="image" onChange={(e) => setImage(e.target.files[0])} id="image" placeholder='Category name' className='in form-control' style={{ width: "100%" }} />
+                                <input type="file" name="image" onChange={(e) => setImage(e.target.files[0])} id="image" placeholder='Category name' className='in form-control' style={{ width: "100%" }} required />
                                 <label style={{ color: "#222" }}>Category Image</label>
                             </div>
                             <img src={category.image} height={"200px"} alt={category.name} /> <br />
