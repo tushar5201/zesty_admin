@@ -120,7 +120,7 @@ export default function AddMartItem() {
                         </div>
 
                         <label htmlFor="" className='mt-3 text-start'>Product Images</label>
-                        <input type="file" name="images" onChange={handleFileChange} id="" className='form-control' multiple required />
+                        <input type="file" accept='image/png, image/jpeg' name="images" onChange={handleFileChange} id="" className='form-control' multiple required />
                         <p style={{ color: "#aaa" }}>*You can select multiple files</p>
                         <div className="d-flex" style={{ width: "450px" }}>
                             {images.map((file, index) => (
@@ -291,7 +291,7 @@ export function UpdateZestyMart() {
                             </div>
 
                             <label htmlFor="" className='mt-3 text-start'>Product Images</label>
-                            <input type="file" name="images" onChange={handleFileChange} id="" className='form-control' multiple required />
+                            <input type="file" accept='image/png, image/jpeg' name="images" onChange={handleFileChange} id="" className='form-control' multiple required />
                             <p style={{ color: "#aaa" }}>*You can select multiple files</p>
                             <div className="d-flex" style={{ width: "450px" }}>
                                 {images.map((file, index) => (

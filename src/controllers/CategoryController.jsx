@@ -48,7 +48,7 @@ export function CreateCategory() {
                         </div>
 
                         <div className="form-floating mt-3 mb-2">
-                            <input type="file" name="image" onChange={(e) => setImage(e.target.files[0])} id="image" placeholder='Category name' className='in form-control' style={{ width: "100%" }} required />
+                            <input type="file" accept='image/png, image/jpeg' name="image" onChange={(e) => setImage(e.target.files[0])} id="image" placeholder='Category name' className='in form-control' style={{ width: "100%" }} required />
                             <label style={{ color: "#222" }}>Category Image</label>
                         </div>
                         {image && (
@@ -149,7 +149,7 @@ export default function UpdateCategory() {
                             </div>
 
                             <div className="form-floating mt-3 mb-2">
-                                <input type="file" name="image" onChange={(e) => setImage(e.target.files[0])} id="image" placeholder='Category name' className='in form-control' style={{ width: "100%" }} required />
+                                <input type="file" accept='image/png, image/jpeg' name="image" onChange={(e) => setImage(e.target.files[0])} id="image" placeholder='Category name' className='in form-control' style={{ width: "100%" }} required />
                                 <label style={{ color: "#222" }}>Category Image</label>
                             </div>
                             <img src={category.image} height={"200px"} alt={category.name} /> <br />

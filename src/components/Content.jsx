@@ -21,9 +21,9 @@ export default function Content() {
                 <Col>
                     <TotalOrdersCard type="Users" total={152} image={"./images/users.png"} />
                 </Col>
-                <Col>
+                {/* <Col>
                     <TotalOrdersCard type="Riders" total={175} image={"./images/riders.png"} />
-                </Col>
+                </Col> */}
                 <Col>
                     <TotalOrdersCard type="Partners" total={52} image={"./images/restaurants.png"} />
                 </Col>
