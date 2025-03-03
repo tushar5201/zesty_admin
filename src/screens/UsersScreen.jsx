@@ -101,7 +101,7 @@ export default function UsersScreen() {
                                     .map((user, i) => (
                                         <tr key={i} style={{ verticalAlign: "middle" }}>
                                             <td>{user._id}</td>
-                                            <td><h4>{user.mobiles}</h4></td>
+                                            <td><h4>{user.mobile}</h4></td>
                                             <td><button onClick={() => handleShow(user)} style={{ textDecoration: "underline", background: "none", padding: 0, width: "100px" }}>Details</button></td>
                                             <td><button className='btn btn-danger' onClick={() => handleDelete(user._id)}>Delete</button></td>
                                         </tr>

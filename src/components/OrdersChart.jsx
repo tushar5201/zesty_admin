@@ -1,8 +1,7 @@
-import React from 'react';
-import { Line } from 'react-chartjs-2';
-import { Doughnut } from 'react-chartjs-2';
-import "../assets/css/totalOrdersCard.css";
-
+import React, { useReducer, useEffect, useState } from 'react';
+import { Line, Doughnut } from 'react-chartjs-2';
+import { Card, Col, Row } from 'react-bootstrap';
+import axios from 'axios';
 import {
     Chart as ChartJS,
     LineElement,
@@ -15,9 +14,119 @@ import {
     Legend,
     ArcElement,
 } from 'chart.js';
-import { Card, Col, Row } from 'react-bootstrap';
+
+const reducerOrders = (state, action) => {
+    switch (action.type) {
+        case 'FETCH_REQUEST':
+            return { ...state, loading: true };
+        case 'FETCH_SUCCESS':
+            return { ...state, loading: false, orders: action.payload };
+        case 'FETCH_FAIL':
+            return { ...state, loading: false, error: action.payload };
+        default:
+            return state;
+    }
+};
 
 export default function OrdersChart() {
+    const [{ loadingOrders, errorOrders, orders }, dispatchOrders] = useReducer(reducerOrders, {
+        loading: true,
+        error: '',
+        orders: [],
+    });
+
+    const [delivered, setDelivered] = useState(0);
+    const [onDelivery, setOnDelivery] = useState(0);
+    const [cancelled, setCancelled] = useState(0);
+
+    const [lineChartData, setLineChartData] = useState({
+        labels: [],
+        datasets: [
+            {
+                label: 'Order Statistics (Orders)',
+                data: [],
+                borderColor: '#024b3b',
+                backgroundColor: '#edf5f3',
+                borderWidth: 2.5,
+                pointBorderColor: '#024b3b',
+                pointBackgroundColor: '#edf5f3',
+                pointBorderWidth: 2.5,
+                pointHoverRadius: 6,
+                pointHoverBackgroundColor: '#edf5f3',
+                tension: 0.5,
+                fill: true,
+            },
+        ],
+    });
+
+    const fetchOrders = async () => {
+        dispatchOrders({ type: 'FETCH_REQUEST' });
+        try {
+            const orders = await axios.get('https://zesty-backend.onrender.com/order/get-all-orders');
+            calculateOrderStatus(orders.data); // Calculate order status counts
+            aggregateOrdersByDay(orders.data); // Aggregate orders by day
+            dispatchOrders({ type: 'FETCH_SUCCESS', payload: orders.data });
+        } catch (error) {
+            dispatchOrders({ type: 'FETCH_FAIL', payload: error.message });
+        }
+    };
+
+    const calculateOrderStatus = (orders) => {
+        let deliver = 0;
+        let active = 0;
+        let rejected = 0;
+
+        orders.forEach((order) => {
+            if (order.orderStatus === 'Delivered') {
+                deliver += 1;
+            }
+            if (order.orderStatus === 'Pending' || order.orderStatus === 'Active' || order.orderStatus === 'Prepared') {
+                active += 1;
+            }
+            if (order.orderStatus === 'Rejected') {
+                rejected += 1;
+            }
+        });
+
+        setDelivered(deliver);
+        setOnDelivery(active);
+        setCancelled(rejected);
+    };
+
+    const aggregateOrdersByDay = (orders) => {
+        const ordersByDay = {};
+
+        // Group orders by day
+        orders.forEach((order) => {
+            const date = new Date(order.createdAt).toLocaleDateString(); // Extract date (e.g., "10/1/2023")
+            if (!ordersByDay[date]) {
+                ordersByDay[date] = 0;
+            }
+            ordersByDay[date] += 1;
+        });
+
+        // Sort dates in ascending order
+        const sortedDates = Object.keys(ordersByDay).sort(
+            (a, b) => new Date(a) - new Date(b)
+        );
+
+        // Update lineChartData
+        setLineChartData((prevState) => ({
+            ...prevState,
+            labels: sortedDates,
+            datasets: [
+                {
+                    ...prevState.datasets[0],
+                    data: sortedDates.map((date) => ordersByDay[date]),
+                },
+            ],
+        }));
+    };
+
+    useEffect(() => {
+        fetchOrders();
+    }, []);
+
     ChartJS.register(
         LineElement,
         PointElement,
@@ -30,29 +139,8 @@ export default function OrdersChart() {
         ArcElement
     );
 
-    const lineChartData = {
-        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-        datasets: [
-            {
-                label: 'Order Statistics (LE)',
-                data: [500, 1200, 2150, 1800, 2000, 2500, 3000, 2200, 2700, 2900, 3100, 3200],
-                borderColor: '#024b3b',
-                backgroundColor: '#edf5f3',
-                borderWidth: 2.5,
-                pointBorderColor: '#024b3b',
-                pointBackgroundColor: '#edf5f3',
-                pointBorderWidth: 2.5,
-                pointHoverRadius: 6,
-                pointHoverBackgroundColor: '#edf5f3',
-                tension: 0.5, // Smooth curve
-                fill: true,
-            },
-        ],
-    };
-
     const options = {
         responsive: true,
-        // maintainAspectRatio: false,
         plugins: {
             legend: {
                 display: true,
@@ -63,7 +151,7 @@ export default function OrdersChart() {
             },
             tooltip: {
                 callbacks: {
-                    label: (tooltipItem) => `${tooltipItem.raw} LE`,
+                    label: (tooltipItem) => `${tooltipItem.raw} Orders`,
                 },
             },
         },
@@ -82,7 +170,7 @@ export default function OrdersChart() {
                 },
                 ticks: {
                     color: '#6c757d',
-                    callback: (value) => `${value} LE`,
+                    callback: (value) => `${value} Orders`,
                 },
             },
         },
@@ -92,27 +180,29 @@ export default function OrdersChart() {
         labels: ['Delivered', 'On Delivery', 'Cancelled'],
         datasets: [
             {
-                data: [95, 20, 5],
+                data: [delivered, onDelivery, cancelled],
                 backgroundColor: ['#024b3b', '#88cfbf', '#c6f5ea'],
-                borderWidth: 0
+                borderWidth: 0,
             },
         ],
     };
+
     return (
-        <Row style={{ marginRight: "5px" }}>
+        <Row style={{ marginRight: '5px' }}>
             <Col md={8}>
-                <Card className='graph-card' style={{}}>
+                <Card className="graph-card">
                     <h5>Order Statistics</h5>
                     <Line data={lineChartData} options={options} />
                 </Card>
             </Col>
 
             <Col md={4}>
-                <Card className='graph-card' style={{ marginLeft: "0" }}>
-                    <h5>Order Summary</h5><br />
+                <Card className="graph-card" style={{ marginLeft: '0' }}>
+                    <h5>Order Summary</h5>
+                    <br />
                     <Doughnut data={doughnutData} />
                 </Card>
             </Col>
         </Row>
-    )
+    );
 }
