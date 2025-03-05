@@ -1,10 +1,12 @@
 import React, { useEffect, useReducer } from 'react'
 import Header from '../components/Header'
-import { Card, Col, Container, Row } from 'react-bootstrap'
+import { Card, Container } from 'react-bootstrap'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import axios from "axios"
 import { toast } from 'react-toastify'
 import { useState } from 'react'
+import Loading from '../components/Loading'
+import MessageBox from '../components/MessageBox'
 
 export default function AddMartItem() {
     const [category, setCategory] = useState("");
@@ -15,6 +17,8 @@ export default function AddMartItem() {
     const [grms, setGrms] = useState("");
     const [weight, setWeight] = useState("");
     const [pack, setPack] = useState("");
+
+    const [loading, setLoading] = useState(false);
 
     const navigate = useNavigate();
 
@@ -35,10 +39,10 @@ export default function AddMartItem() {
     };
 
     const submitHandler = async (e) => {
-
+        setLoading(true);
         if (name === "" && price === "" && description === "" && weight === "" && pack === "" && category === "") {
             toast.dark("All fields are mandatory");
-        } else if(price < "1") {
+        } else if (price < "1") {
             toast.dark("Price should greater than 1");
         } else {
 
@@ -134,8 +138,9 @@ export default function AddMartItem() {
                                 />
                             ))}
                         </div>
-
-                        <Link className='btn btn-dark mt-5' onClick={submitHandler}>Add Mart Item</Link>
+                        {loading ? <Loading /> :
+                            <Link className='btn btn-dark mt-5' onClick={submitHandler}>Add Mart Item</Link>
+                        }
                     </form>
                 </Card>
             </Container>
@@ -191,7 +196,7 @@ export function UpdateZestyMart() {
     const fetchData = async () => {
         dispatch({ type: "FETCH_REQUEST" });
         try {
-            const res = await axios.get(`/zestyMart/get/${id}`);
+            const res = await axios.get(`https://zesty-backend.onrender.com/zestyMart/get/${id}`);
             setExistingImgs(res.data.images);
             dispatch({ type: "FETCH_SUCCESS", payload: res.data });
         } catch (error) {
@@ -223,7 +228,7 @@ export function UpdateZestyMart() {
 
         try {
             const res = await axios.post(
-                "/zestyMart/update-mart-item",
+                "https://zesty-backend.onrender.com/zestyMart/update-mart-item",
                 martItemData,
                 {
                     headers: { "Content-Type": "multipart/form-data" },
@@ -257,9 +262,8 @@ export function UpdateZestyMart() {
                 <Card className='text-center mt-5 w-50 mx-auto p-5'>
                     <h3><u>Update Category</u></h3>
 
-                    {loading ? <h1>Loading...</h1> : error ? error :
+                    {loading ? <Loading /> : error ? <MessageBox>{error}</MessageBox> :
                         <form>
-
                             <select name="category" defaultValue={martItem.category} id="" onChange={(e) => setCategory(e.target.value)} className='in form-select mt-5'>
                                 <option value="" disabled selected>Select category</option>
                                 <option value="Fresh">Fresh</option>

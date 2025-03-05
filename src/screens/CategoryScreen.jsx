@@ -8,6 +8,8 @@ import { Row, Col } from "react-bootstrap"
 import { Link } from "react-router-dom"
 import Header from '../components/Header'
 import { useState } from 'react'
+import Loading from '../components/Loading'
+import MessageBox from '../components/MessageBox'
 
 const reducer = (state, action) => {
     switch (action.type) {
@@ -90,32 +92,30 @@ export default function CategoryScreen() {
                             </tr>
                         </thead>
 
-                        {loading ? <h3>Loading...</h3> : error ? { error } : (
+                        {loading ? <Loading /> : error ? <MessageBox>{error}</MessageBox> : (
                             <tbody>
 
                                 {categories.slice(0).reverse()
-                                .filter((item) => {
-                                    const searchTerm = search.toLowerCase();
-                                    const name = item.name.toLowerCase();
-                                    return searchTerm && name.includes(searchTerm);
-                                })
-                                .map((category, i) => (
-                                    <tr key={i} style={{ verticalAlign: "middle" }}>
-                                        <td>{category._id}</td>
-                                        <td><h4>{category.name}</h4></td>
-                                        {/* <td><img src={`https://zesty-backend.onrender.com/category/get-category-image/${category._id}`} height={"200px"} alt={category.name} /></td> */}
-                                        <td><img src={category.image} height={"200px"} alt={category.name} /></td>
-                                        <td><Link className='btn btn-primary' to={`/admin/update-category/${category._id}`}>Update</Link></td>
-                                        <td><button className='btn btn-danger' onClick={() => handleDelete(category._id)}>Delete</button></td>
-                                    </tr>
+                                    .filter((item) => {
+                                        const searchTerm = search.toLowerCase();
+                                        const name = item.name.toLowerCase();
+                                        return searchTerm && name.includes(searchTerm);
+                                    })
+                                    .map((category, i) => (
+                                        <tr key={i} style={{ verticalAlign: "middle" }}>
+                                            <td>{category._id}</td>
+                                            <td><h4>{category.name}</h4></td>
+                                            <td><img src={category.image} height={"200px"} alt={category.name} /></td>
+                                            <td><Link className='btn btn-primary' to={`/admin/update-category/${category._id}`}>Update</Link></td>
+                                            <td><button className='btn btn-danger' onClick={() => handleDelete(category._id)}>Delete</button></td>
+                                        </tr>
 
-                                ))}
+                                    ))}
 
                                 {search === "" && categories.slice(0).reverse().map((category, i) => (
                                     <tr key={i} style={{ verticalAlign: "middle" }}>
                                         <td>{category._id}</td>
                                         <td><h4>{category.name}</h4></td>
-                                        {/* <td><img src={`https://zesty-backend.onrender.com/category/get-category-image/${category._id}`} height={"200px"} alt={category.name} /></td> */}
                                         <td><img src={category.image} height={"200px"} alt={category.name} /></td>
                                         <td><Link className='btn btn-primary' to={`/admin/update-category/${category._id}`}>Update</Link></td>
                                         <td><button className='btn btn-danger' onClick={() => handleDelete(category._id)}>Delete</button></td>

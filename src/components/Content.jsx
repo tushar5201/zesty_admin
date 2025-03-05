@@ -5,6 +5,8 @@ import { Col, Row } from 'react-bootstrap';
 import OrdersChart from './OrdersChart';
 import PastOrdersandPartners from './PastOrders&partner';
 import axios from 'axios';
+import Loading from "../components/Loading"
+import MessageBox from "../components/MessageBox"
 
 const reducerOrders = (state, action) => {
     switch (action.type) {
@@ -125,27 +127,27 @@ export default function Content() {
                     <TotalOrdersCard type="Revenue" total={revenue} image={'./images/revenue.png'} />
                 </Col>
                 {loadingOrders ? (
-                    <h3>Loading...</h3>
+                    <Loading />
                 ) : errorOrders ? (
-                    errorOrders
+                    <MessageBox>{errorOrders}</MessageBox>
                 ) : (
                     <Col>
                         <TotalOrdersCard type="Orders" total={orders.length} image={'./images/orders.png'} />
                     </Col>
                 )}
                 {loadingUsers ? (
-                    <h3>Loading...</h3>
+                    <Loading />
                 ) : errorUsers ? (
-                    errorUsers
+                    <MessageBox>{errorUsers}</MessageBox>
                 ) : (
                     <Col>
                         <TotalOrdersCard type="Users" total={users.length} image={'./images/users.png'} />
                     </Col>
                 )}
                 {loadingRestaurant ? (
-                    <h3>Loading...</h3>
+                    <Loading />
                 ) : errorRestaurant ? (
-                    errorRestaurant
+                    <MessageBox>{errorRestaurant}</MessageBox>
                 ) : (
                     <Col>
                         <TotalOrdersCard type="Restaurants" total={restaurant.length} image={'./images/restaurants.png'} />

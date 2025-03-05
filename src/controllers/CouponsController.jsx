@@ -1,9 +1,11 @@
 import React, { useState, useEffect, useReducer } from 'react';
 import Header from '../components/Header';
 import { Card, Container } from 'react-bootstrap';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import axios from "axios";
 import { toast } from 'react-toastify';
+import Loading from '../components/Loading';
+import MessageBox from '../components/MessageBox';
 
 export function CreateCoupon() {
     const [promoCode, setPromoCode] = useState("");
@@ -13,9 +15,11 @@ export function CreateCoupon() {
     const [minAmountRequired, setMinAmountRequired] = useState("");
     const navigate = useNavigate();
 
+    const [loading, setLoading] = useState(false);
+
     const submitHandler = async (e) => {
         e.preventDefault();
-
+        setLoading(true);
         const couponData = { promoCode, description, discountPercentage, discountUpto, minAmtReq: minAmountRequired };
 
         try {
@@ -111,8 +115,9 @@ export function CreateCoupon() {
                             />
                             <label style={{ color: "#222" }}>Minimum Amount Required</label>
                         </div>
-
-                        <button type="submit" className="btn btn-dark mt-5">Add Coupon</button>
+                        {loading ? <Loading /> :
+                            <button type="submit" className="btn btn-dark mt-5">Add Coupon</button>
+                        }
                     </form>
                 </Card>
             </Container>
@@ -138,7 +143,9 @@ export default function UpdateCoupon() {
         loading: true,
         error: "",
         coupon: {}
-    })
+    });
+
+    const [loading1, setLoading] = useState(false);
 
     const [promoCode, setPromoCode] = useState("");
     const [description, setDescription] = useState("");
@@ -150,6 +157,7 @@ export default function UpdateCoupon() {
 
     const submitHandler = async (e) => {
         e.preventDefault();
+        setLoading(true);
         const couponData = new FormData();
         couponData.append("id", id);
         couponData.append("promoCode", promoCode);
@@ -201,7 +209,7 @@ export default function UpdateCoupon() {
                 <Card className='text-center mt-5 w-50 mx-auto p-5'>
                     <h3><u>Update Coupon</u></h3>
 
-                    {loading ? <h1>Loading...</h1> : error ? error :
+                    {loading ? <Loading /> : error ? <MessageBox>{error}</MessageBox> :
 
                         <form>
                             <div className="form-floating mt-3 mb-2">
@@ -279,7 +287,9 @@ export default function UpdateCoupon() {
                                 <label style={{ color: "#222" }}>Minimum Amount Required</label>
                             </div>
 
-                            <button type="submit" onClick={submitHandler} className="btn btn-dark mt-5">Update Coupon</button>
+                            {loading1 ? <Loading /> :
+                                <button type="submit" onClick={submitHandler} className="btn btn-dark mt-5">Update Coupon</button>
+                            }
                         </form>
                     }
                 </Card>

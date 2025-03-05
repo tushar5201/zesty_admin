@@ -8,6 +8,7 @@ import { io } from 'socket.io-client';
 import { toast } from "react-toastify";
 import { Modal } from "react-bootstrap"
 import { useReducer } from 'react';
+import Loading from '../components/Loading';
 // import {socket} from "socket.io-client";
 
 const socket = io("https://zesty-backend.onrender.com");
@@ -107,7 +108,7 @@ export default function Notification() {
             )} */}
 
             {
-              loading ? (<h1>Loading...</h1>) :
+              loading ? <Loading /> :
                 allRestaurants.slice(0).reverse().map((res) => (
                   <tbody>
                     {res.verified === "Pending" && (

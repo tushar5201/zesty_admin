@@ -1,34 +1,38 @@
-import {React, useState} from 'react';
+import { React, useState } from 'react';
 import { Button, Card, Col, Row } from "react-bootstrap"
 import { Link, useNavigate } from 'react-router-dom';
 import RegistrationHeader from '../components/RegistrationHeader';
-import {toast} from "react-toastify"
+import { toast } from "react-toastify"
 import "../assets/css/registration.css"
+import Loading from '../components/Loading';
 
 
 export default function SigninScreen() {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
 
+    const [loading, setLoading] = useState(false);
+
     const navigate = useNavigate();
     const submitHandler = async (e) => {
         e.preventDefault();
+        setLoading(true)
         try {
-            const res = await fetch("/admin/signin", {
+            const res = await fetch("https://zesty-backend.onrender.com/admin/signin", {
                 method: 'POST',
                 headers: { 'content-type': 'application/json' },
-                body: JSON.stringify({username, password})
+                body: JSON.stringify({ username, password })
             });
-            if(res.status === 405) {
+            if (res.status === 405) {
                 toast.dark("Wrong Credentials");
-            }else if(res.status === 401){
+            } else if (res.status === 401) {
                 toast.dark("User is not authenticared");
-            } else if(res.status === 406) {
+            } else if (res.status === 406) {
                 toast.dark("Error in Signin");
-            } else if(res.status === 200) {
+            } else if (res.status === 200) {
                 toast.dark("Successfully Signed In");
                 navigate("/");
-            }   
+            }
         } catch (error) {
             console.log(error);
         }
@@ -51,11 +55,13 @@ export default function SigninScreen() {
                             <label for="email">Password</label>
                         </div>
 
-                        <Button className='btn-register m-3 me-3' onClick={submitHandler}>Sign In</Button>
+                        {loading ? <Loading /> :
+                            <Button className='btn-register m-3 me-3' onClick={submitHandler}>Sign In</Button>
+                        }
                     </form><br />
                     <hr />
                     <Row>
-                        <Col style={{marginLeft: "-25px"}} className='text-end' md={8}>
+                        <Col style={{ marginLeft: "-25px" }} className='text-end' md={8}>
                             <p>Don't have an account ? </p>
                         </Col>
                         <Col className='text-start'>

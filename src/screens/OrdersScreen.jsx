@@ -6,6 +6,8 @@ import { useEffect } from 'react';
 import axios from "axios"
 import { useState } from 'react';
 import { Modal } from "react-bootstrap";
+import Loading from '../components/Loading';
+import MessageBox from '../components/MessageBox';
 
 const reducerOrders = (state, action) => {
   switch (action.type) {
@@ -66,11 +68,9 @@ export default function OrdersScreen() {
     }
   }
 
-
   const [show, setShow] = useState(false);
   const [selectedOrder, setSelectedOrder] = useState({});
   let totalbase = 0;
-  const [total, setTotal] = useState();
 
   const handleShowDetails = (order) => {
     fetchRestaurantData(order.restaurantId);
@@ -89,7 +89,7 @@ export default function OrdersScreen() {
         <Header />
         <div style={{ padding: "20px" }}>
           <h2>Orders</h2>
-          {loadingOrders ? <h5>Loading...</h5> : errorOrders ? errorOrders :
+          {loadingOrders ? <Loading /> : errorOrders ? <MessageBox>{errorOrders}</MessageBox> :
             <table className='mt-5 table'>
               <thead>
                 <tr>
@@ -134,7 +134,7 @@ export default function OrdersScreen() {
             <table className='table'>
               <tbody>
                 {
-                  loadingRes ? <h3>Loading Restaurant..</h3> : errorRes ? errorRes :
+                  loadingRes ? <Loading /> : errorRes ? <MessageBox>{errorRes}</MessageBox> :
                     <>
                       {selectedOrder.order && (
                         selectedOrder.order.map((item) => (

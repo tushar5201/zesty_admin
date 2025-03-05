@@ -7,6 +7,8 @@ import { useState } from 'react'
 import { toast } from "react-toastify"
 import { Row, Col, Modal } from "react-bootstrap"
 import { useEffect } from 'react'
+import Loading from '../components/Loading'
+import MessageBox from '../components/MessageBox'
 
 const reducer = (state, action) => {
     switch (action.type) {
@@ -90,7 +92,7 @@ export default function UsersScreen() {
                             </tr>
                         </thead>
 
-                        {loading ? <h3>Loading...</h3> : error ? { error } : (
+                        {loading ? <Loading /> : error ? <MessageBox>{error}</MessageBox> : (
                             <tbody>
                                 {users.slice(0).reverse()
                                     .filter((item) => {

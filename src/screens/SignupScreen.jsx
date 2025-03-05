@@ -2,33 +2,36 @@ import React, { useState } from 'react'
 import RegistrationHeader from '../components/RegistrationHeader'
 import { Button, Card, Col, Row } from 'react-bootstrap'
 import { Link, useNavigate } from 'react-router-dom'
-import {toast} from "react-toastify"
+import { toast } from "react-toastify"
 
 import "../assets/css/registration.css"
+import Loading from '../components/Loading'
 
 export default function SignupScreen() {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const [secretCode, setSecretCode] = useState("");
 
+    const [loading, setLoading] = useState(false);
+
     const navigate = useNavigate();
     const submitHandler = async (e) => {
         e.preventDefault();
+        setLoading(true);
         try {
-            // const res = await axios.post(`/admin/signup`, {email, password, secretCode});
-            const res = await fetch("/admin/signup", {
+            const res = await fetch("https://zesty-backend.onrender.com/admin/signup", {
                 method: 'POST',
                 headers: { 'content-type': 'application/json' },
-                body: JSON.stringify({username, password, secretCode})
+                body: JSON.stringify({ username, password, secretCode })
             });
-            if(res.status === 405) {
+            if (res.status === 405) {
                 toast.dark("Invalid Secret Code");
-            } else if(res.status === 403) {
+            } else if (res.status === 403) {
                 toast.dark("User Already Registered");
-            } else if(res.status === 200) {
+            } else if (res.status === 200) {
                 toast.dark("Successfully Signed Up");
                 navigate("/admin/signin");
-            }   
+            }
         } catch (error) {
             console.log(error);
         }
@@ -56,7 +59,9 @@ export default function SignupScreen() {
                             <label for="secretCode">Secret Code</label>
                         </div>
 
-                        <Button className='btn-register m-3 me-3' onClick={submitHandler}>Sign In</Button>
+                        {loading ? <Loading /> :
+                            <Button className='btn-register m-3 me-3' onClick={submitHandler}>Sign In</Button>
+                        }
                     </form><br />
                     <hr />
                     <Row>

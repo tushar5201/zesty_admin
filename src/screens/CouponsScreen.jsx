@@ -5,6 +5,8 @@ import { Link } from "react-router-dom";
 import Header from '../components/Header';
 import axios from "axios";
 import { toast } from 'react-toastify';
+import Loading from '../components/Loading';
+import MessageBox from '../components/MessageBox';
 
 const reducer = (state, action) => {
     switch (action.type) {
@@ -82,7 +84,7 @@ export default function CouponScreen() {
                             </tr>
                         </thead>
 
-                        {loading ? <h3>Loading...</h3> : error ? <h3>{error}</h3> : (
+                        {loading ? <Loading /> : error ? <MessageBox>{error}</MessageBox> : (
                             <tbody>
                                 {coupons.slice(0).reverse().map((coupon, i) => (
                                     <tr key={i}>

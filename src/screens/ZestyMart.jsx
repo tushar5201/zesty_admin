@@ -8,6 +8,8 @@ import axios from "axios"
 import { toast } from 'react-toastify'
 import { useEffect } from 'react'
 import { useState } from 'react'
+import Loading from '../components/Loading'
+import MessageBox from '../components/MessageBox'
 
 const reducer = (state, action) => {
     switch (action.type) {
@@ -113,7 +115,7 @@ export default function ZestyMart() {
                         {
                             category === "" ? (
                                 <>
-                                    {loading ? <h3>Loading...</h3> : error ? { error } : (
+                                    {loading ? <Loading /> : error ? <MessageBox>{error}</MessageBox> : (
                                         <tbody>
                                             {search === "" && martItems.slice(0).reverse().map((martItem, i) => (
                                                 <tr key={i} style={{ verticalAlign: "middle" }}>
@@ -145,7 +147,7 @@ export default function ZestyMart() {
                                 </>
                             ) : (
                                 <>
-                                    {loading ? <h3>Loading...</h3> : error ? { error } : (
+                                    {loading ? <Loading /> : error ? <MessageBox>{error}</MessageBox> : (
                                         <tbody>
                                             {search === "" && martItems.slice(0).reverse().map((martItem, i) => (
                                                 martItem.category === category &&

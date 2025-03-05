@@ -3,11 +3,12 @@ import Sidebar from '../components/Sidebar'
 import Header from '../components/Header'
 import { useReducer } from 'react'
 import { Row, Col, Modal } from "react-bootstrap"
-import { Link } from "react-router-dom"
 import axios from "axios"
 import { toast } from 'react-toastify'
 import { useEffect } from 'react'
 import { useState } from 'react'
+import Loading from '../components/Loading'
+import MessageBox from '../components/MessageBox'
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -92,7 +93,7 @@ export default function RestaurantScreen() {
               </tr>
             </thead>
 
-            {loading ? <h3>Loading...</h3> : error ? { error } : (
+            {loading ? <Loading /> : error ? <MessageBox>{error}</MessageBox> : (
               <tbody>
                 {restaurants.slice(0).reverse()
                   .filter((item) => {

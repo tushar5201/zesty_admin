@@ -4,14 +4,18 @@ import { Card, Container } from 'react-bootstrap'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import axios from "axios"
 import { toast } from 'react-toastify'
+import Loading from '../components/Loading'
+import MessageBox from '../components/MessageBox'
 
 export function CreateCategory() {
     const [name, setName] = useState("");
     const [image, setImage] = useState("");
     const navigate = useNavigate();
 
-    const submitHandler = async (e) => {
+    const [loading, setLoading] = useState(false);
 
+    const submitHandler = async (e) => {
+        setLoading(true);
         const categoryData = new FormData();
         categoryData.append("name", name);
         categoryData.append("image", image);
@@ -56,8 +60,9 @@ export function CreateCategory() {
                                 <img src={URL.createObjectURL(image)} alt='category' height={'200px'} />
                             </div>
                         )}
-
-                        <Link className='btn btn-dark mt-5' onClick={submitHandler}>Add Category</Link>
+                        {loading ? <Loading /> :
+                            <Link className='btn btn-dark mt-5' onClick={submitHandler}>Add Category</Link>
+                        }
                     </form>
                 </Card>
             </Container>
@@ -84,7 +89,9 @@ export default function UpdateCategory() {
         loading: true,
         error: "",
         category: {}
-    })
+    });
+
+    const [loading1, setLoading] = useState(false);
 
     const [name, setName] = useState("");
     const [image, setImage] = useState("");
@@ -92,7 +99,7 @@ export default function UpdateCategory() {
     const { id } = useParams();
 
     const submitHandler = async () => {
-
+        setLoading(true);
         const categoryData = new FormData();
         categoryData.append("id", id);
         categoryData.append("name", name);
@@ -141,7 +148,7 @@ export default function UpdateCategory() {
                 <Card className='text-center mt-5 w-50 mx-auto p-5'>
                     <h3><u>Update Category</u></h3>
 
-                    {loading ? <h1>Loading...</h1> : error ? error :
+                    {loading ? <Loading /> : error ? <MessageBox>{error}</MessageBox> :
                         <form>
                             <div className="form-floating mt-5 mb-2">
                                 <input type="text" name="name" defaultValue={category.name} onChange={(e) => setName(e.target.value)} id="name" placeholder='Category name' className='in form-control' style={{ width: "100%" }} required />
@@ -158,7 +165,9 @@ export default function UpdateCategory() {
                                     <img src={URL.createObjectURL(image)} alt='category' height={'200px'} />
                                 </div>
                             )}
-                            <Link className='btn btn-dark mt-5' onClick={submitHandler}>Update Category</Link>
+                            {loading1 ? <Loading /> :
+                                <Link className='btn btn-dark mt-5' onClick={submitHandler}>Update Category</Link>
+                            }
                         </form>
                     }
                 </Card>
