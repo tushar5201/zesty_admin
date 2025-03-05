@@ -70,7 +70,7 @@ export default function Content() {
         dispatchOrders({ type: 'FETCH_REQUEST' });
         try {
             const orders = await axios.get('https://zesty-backend.onrender.com/order/get-all-orders');
-            calculateRevenue(orders.data); // Calculate revenue after fetching orders
+            setRevenue(calculateRevenue(orders.data).toFixed(2)); // Calculate revenue after fetching orders
             dispatchOrders({ type: 'FETCH_SUCCESS', payload: orders.data });
         } catch (error) {
             dispatchOrders({ type: 'FETCH_FAIL', payload: error.message });
@@ -98,16 +98,15 @@ export default function Content() {
     };
 
     const calculateRevenue = (orders) => {
-        let totalAmountUsers = 0;
-        let totalAmountRestaurants = 0;
+        if (!orders || orders.length === 0) return 0;
 
-        orders.forEach((order) => {
-            totalAmountUsers += parseInt(order.totalAmountUser) || 0;
-            totalAmountRestaurants += parseInt(order.totalAmountRestaurant) || 0;
-        });
+        return orders.reduce((totalRevenue, order) => {
+            const userAmount = parseFloat(order.totalAmountUser) || 0;
+            const restaurantAmount = parseFloat((order.totalAmountRestaurant * 100) / 130) || 0;
+            console.log("total Amount" + totalRevenue);
 
-        const totalRevenue = totalAmountUsers - totalAmountRestaurants;
-        setRevenue(totalRevenue); // Update the revenue state
+            return totalRevenue + (userAmount - restaurantAmount);
+        }, 0);
     };
 
     useEffect(() => {

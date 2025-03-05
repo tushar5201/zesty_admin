@@ -96,7 +96,8 @@ export default function PastOrdersandPartners() {
                                         <td>{order.restaurantName}</td>
                                         <td>{order.orderStatus === "Pending" || order.orderStatus === "Active" || order.orderStatus === "Prepared" ?
                                             <span className='text-warning bg-warning bg-opacity-25' style={{ padding: "5px", borderRadius: "5px" }}>{order.orderStatus}</span>
-                                                : order.orderStatus === "Delivered" && <span className='text-success bg-success bg-opacity-25' style={{ padding: "5px", borderRadius: "5px" }}>Success</span>
+                                            : order.orderStatus === "Delivered" ? <span className='text-success bg-success bg-opacity-25' style={{ padding: "5px", borderRadius: "5px" }}>{order.orderStatus}</span>
+                                                : order.orderStatus === "Rejected" && <span className='text-danger bg-danger bg-opacity-25' style={{ padding: "5px", borderRadius: "5px" }}>{order.orderStatus}</span>
                                         }</td>
                                         <td>{order.totalAmountUser}</td>
                                     </tr>
