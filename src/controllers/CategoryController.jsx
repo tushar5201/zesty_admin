@@ -25,13 +25,17 @@ export function CreateCategory() {
                 toast.dark("Category Added");
                 navigate("/admin/categories");
             } else if (res.status === 401) {
+                setLoading(false);
                 toast.dark("Category already exist");
             } else if (res.status === 405) {
+                setLoading(false);
                 toast.dark("category saving failed");
             } else {
+                setLoading(false);
                 toast.dark("internal server error");
             }
         } catch (error) {
+            setLoading(false);
             console.log(error);
             toast.dark("failed to add.")
         }
@@ -118,10 +122,13 @@ export default function UpdateCategory() {
                 navigate("/admin/categories");
             } else if (res.status === 401) {
                 toast.dark("category update failed");
+                setLoading(false);
             } else {
+                setLoading(false);
                 toast.dark("internal server error");
             }
         } catch (error) {
+            setLoading(false);
             console.log(error);
             toast.dark("failed to add.")
         }

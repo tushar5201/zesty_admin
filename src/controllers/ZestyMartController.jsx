@@ -42,10 +42,11 @@ export default function AddMartItem() {
         setLoading(true);
         if (name === "" && price === "" && description === "" && weight === "" && pack === "" && category === "") {
             toast.dark("All fields are mandatory");
+            setLoading(false);
         } else if (price < "1") {
             toast.dark("Price should greater than 1");
+            setLoading(false);
         } else {
-
             const martItems = new FormData();
             martItems.append("name", name);
             // martItems.append("image", images);
@@ -64,14 +65,17 @@ export default function AddMartItem() {
                     toast.dark("Mart Item Added");
                     navigate("/admin/zesty-mart");
                 } else if (res.status === 401) {
+                    setLoading(false);
                     toast.dark("Mart Item already exist");
                 } else if (res.status === 405) {
+                    setLoading(false);
                     toast.dark("Mart item saving failed");
                 } else {
+                    setLoading(false);
                     toast.dark("internal server error");
                 }
             } catch (error) {
-
+                setLoading(false);
                 console.log(error);
                 toast.dark("failed to add.")
             }
@@ -177,10 +181,10 @@ export function UpdateZestyMart() {
     const navigate = useNavigate();
     const { id } = useParams();
 
+    const [loading1, setLoading] = useState(false);
+
     const handleChange = (e) => {
         const value = e.target.value;
-        // setGrms(value);
-
         if (value >= 1000) {
             setWeight(`${(value / 1000).toFixed(2)} kg`);
         } else {
@@ -210,6 +214,7 @@ export function UpdateZestyMart() {
     }
 
     const submitHandler = async () => {
+        setLoading(true);
         const martItemData = new FormData();
         martItemData.append("id", id);
         martItemData.append("name", name);
@@ -240,8 +245,10 @@ export function UpdateZestyMart() {
                 toast.dark("Mart item Updated");
                 navigate("/admin/zesty-mart");
             } else if (res.status === 401) {
+                setLoading(false);
                 toast.dark("Mart update failed");
             } else {
+                setLoading(false);
                 toast.dark("Internal server error");
             }
         } catch (error) {
@@ -322,7 +329,9 @@ export function UpdateZestyMart() {
                                 </tbody>
                             </table>
 
-                            <Link className='btn btn-dark mt-5' onClick={submitHandler}>Add Mart Item</Link>
+                            {loading1 ? <Loading /> :
+                                <Link className='btn btn-dark mt-5' onClick={submitHandler}>Add Mart Item</Link>
+                            }
                         </form>
                     }
                 </Card>

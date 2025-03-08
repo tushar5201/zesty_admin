@@ -28,6 +28,7 @@ export function CreateCoupon() {
             toast.dark("Coupon added successfully.");
             navigate("/admin/coupons");
         } catch (error) {
+            setLoading(false);
             toast.dark("Failed to save coupon.");
         }
     };
@@ -168,20 +169,18 @@ export default function UpdateCoupon() {
 
         try {
             const res = await axios.post(`https://zesty-backend.onrender.com/coupon/update-coupon/${id}`, couponData, { headers: { "Content-Type": "multipart/form-data" }, withCredentials: true });
-            // const res = await fetch(`/coupon/update-coupon/${id}`, {
-            //     method: "POST",
-            //     withCredentials: true,
-            //     body: JSON.stringify({ minAmtReq, discountUpto, discountPercentage, description, promoCode })
-            // });
             if (res.status === 200) {
                 toast.dark("Coupon Updated");
                 navigate("/admin/coupons");
             } else if (res.status === 401) {
+                setLoading(false);
                 toast.dark("coupon update failed");
             } else {
+                setLoading(false);
                 toast.dark("internal server error");
             }
         } catch (error) {
+            setLoading(false);
             console.log(error);
             toast.dark("failed to add.")
         }
