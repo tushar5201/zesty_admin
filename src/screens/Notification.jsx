@@ -109,13 +109,13 @@ export default function Notification() {
 
             {
               loading ? <Loading /> :
-                allRestaurants.slice(0).reverse().map((res) => (
+                allRestaurants.slice(0).reverse().map((res, i) => (
                   <tbody>
                     {res.verified === "Pending" && (
                       <tr>
-                        <td>{res._id}</td>
+                        <td>{i+1}</td>
                         <td>{res.restaurantName}</td>
-                        <td><button onClick={() => handleShow(res)} style={{ textDecoration: "underline", background: "none", padding: 0, width: "100px" }}>Details</button></td>
+                        <td><button onClick={() => handleShow(res)} className='btn btn-outline-dark' style={{ width: "100px" }}>Details</button></td>
                         <td>{(res.verified) === "Pending" && (<span className='p-1' style={{ borderRadius: "5px", color: "white", backgroundColor: "#ffd557" }}>Pending</span>)}</td>
                       </tr>
                     )}

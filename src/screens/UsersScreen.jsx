@@ -102,17 +102,17 @@ export default function UsersScreen() {
                                     })
                                     .map((user, i) => (
                                         <tr key={i} style={{ verticalAlign: "middle" }}>
-                                            <td>{user._id}</td>
+                                            <td>{i+1}</td>
                                             <td><h4>{user.mobile}</h4></td>
-                                            <td><button onClick={() => handleShow(user)} style={{ textDecoration: "underline", background: "none", padding: 0, width: "100px" }}>Details</button></td>
+                                            <td><button onClick={() => handleShow(user)} className='btn btn-outline-dark' style={{ width: "100px" }}>Details</button></td>
                                             <td><button className='btn btn-danger' onClick={() => handleDelete(user._id)}>Delete</button></td>
                                         </tr>
                                     ))}
                                 {search === "" && users.slice(0).reverse().map((user, i) => (
                                     <tr key={i} style={{ verticalAlign: "middle" }}>
-                                        <td>{user._id}</td>
+                                        <td>{i+1}</td>
                                         <td><h4>{user.mobile}</h4></td>
-                                        <td><button onClick={() => handleShow(user)} style={{ textDecoration: "underline", background: "none", padding: 0, width: "100px" }}>Details</button></td>
+                                        <td><button onClick={() => handleShow(user)} className='btn btn-outline-dark' style={{ width: "100px" }}>Details</button></td>
                                         <td><button className='btn btn-danger' onClick={() => handleDelete(user._id)}>Delete</button></td>
                                     </tr>
                                 ))}
@@ -121,7 +121,7 @@ export default function UsersScreen() {
 
                         {data != null && (
 
-                            <Modal show={showDetails} onHide={() => setShowDetails(false)} >
+                            <Modal show={showDetails} className='modal modal-lg' onHide={() => setShowDetails(false)} >
                                 <Modal.Header closeButton>
                                     <Modal.Title>{data.mobile}</Modal.Title>
                                 </Modal.Header>
@@ -142,7 +142,7 @@ export default function UsersScreen() {
                                             </tr>
                                             <tr>
                                                 <td>Address</td>
-                                                <td>{data.address}</td>
+                                                <td>{data.address.map((adr) => (<>{adr}<br /></>))}</td>
                                             </tr>
                                             <tr>
                                                 <td>Latitute</td>

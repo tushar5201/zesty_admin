@@ -103,7 +103,7 @@ export default function CategoryScreen() {
                                     })
                                     .map((category, i) => (
                                         <tr key={i} style={{ verticalAlign: "middle" }}>
-                                            <td>{category._id}</td>
+                                            <td>{i+1}</td>
                                             <td><h4>{category.name}</h4></td>
                                             <td><img src={category.image} height={"200px"} alt={category.name} /></td>
                                             <td><Link className='btn btn-primary' to={`/admin/update-category/${category._id}`}>Update</Link></td>
@@ -114,7 +114,7 @@ export default function CategoryScreen() {
 
                                 {search === "" && categories.slice(0).reverse().map((category, i) => (
                                     <tr key={i} style={{ verticalAlign: "middle" }}>
-                                        <td>{category._id}</td>
+                                        <td>{i+1}</td>
                                         <td><h4>{category.name}</h4></td>
                                         <td><img src={category.image} height={"200px"} alt={category.name} /></td>
                                         <td><Link className='btn btn-primary' to={`/admin/update-category/${category._id}`}>Update</Link></td>

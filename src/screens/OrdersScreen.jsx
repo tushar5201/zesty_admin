@@ -103,7 +103,7 @@ export default function OrdersScreen() {
               <tbody>
                 {orders.slice(0).reverse().map((order, i) => (
                   <tr key={i}>
-                    <td>{order._id}</td>
+                    <td>{i+1}</td>
                     <td>{new Date(order.createdAt).toLocaleDateString()}</td>
                     <th>{order.restaurantName}</th>
                     <td>

@@ -119,9 +119,9 @@ export default function ZestyMart() {
                                         <tbody>
                                             {search === "" && martItems.slice(0).reverse().map((martItem, i) => (
                                                 <tr key={i} style={{ verticalAlign: "middle" }}>
-                                                    <td>{martItem._id}</td>
+                                                    <td>{i+1}</td>
                                                     <td><h4>{martItem.name}</h4></td>
-                                                    <td><button onClick={() => handleShow(martItem)} style={{ textDecoration: "underline", background: "none", padding: 0, width: "100px" }}>Details</button></td>
+                                                    <td><button onClick={() => handleShow(martItem)} className='btn btn-outline-dark' style={{ width: "100px" }}>Details</button></td>
                                                     <td><Link to={`/admin/update-mart-item/${martItem._id}`} className='btn btn-primary'>Update</Link></td>
                                                     <td><button className='btn btn-danger' onClick={() => handleDelete(martItem._id)}>Delete</button></td>
                                                 </tr>
@@ -135,9 +135,9 @@ export default function ZestyMart() {
                                                 })
                                                 .map((martItem, i) => (
                                                     <tr key={i} style={{ verticalAlign: "middle" }}>
-                                                        <td>{martItem._id}</td>
+                                                        <td>{i+1}</td>
                                                         <td><h4>{martItem.name}</h4></td>
-                                                        <td><button onClick={() => handleShow(martItem)} style={{ textDecoration: "underline", background: "none", padding: 0, width: "100px" }}>Details</button></td>
+                                                        <td><button onClick={() => handleShow(martItem)} className='btn btn-outline-dark' style={{ width: "100px" }}>Details</button></td>
                                                         <td><Link to={`/admin/update-mart-item/${martItem._id}`} className='btn btn-primary'>Update</Link></td>
                                                         <td><button className='btn btn-danger' onClick={() => handleDelete(martItem._id)}>Delete</button></td>
                                                     </tr>
@@ -152,9 +152,9 @@ export default function ZestyMart() {
                                             {search === "" && martItems.slice(0).reverse().map((martItem, i) => (
                                                 martItem.category === category &&
                                                 <tr key={i} style={{ verticalAlign: "middle" }}>
-                                                    <td>{martItem._id}</td>
+                                                    <td>{i+1}</td>
                                                     <td><h4>{martItem.name}</h4></td>
-                                                    <td><button onClick={() => handleShow(martItem)} style={{ textDecoration: "underline", background: "none", padding: 0, width: "100px" }}>Details</button></td>
+                                                    <td><button onClick={() => handleShow(martItem)} className='btn btn-outline-dark' style={{ width: "100px" }}>Details</button></td>
                                                     <td><Link to={`/admin/update-mart-item/${martItem._id}`} className='btn btn-primary'>Update</Link></td>
                                                     <td><button className='btn btn-danger' onClick={() => handleDelete(martItem._id)}>Delete</button></td>
                                                 </tr>
@@ -168,9 +168,9 @@ export default function ZestyMart() {
                                                 .map((martItem, i) => (
                                                     martItem.category === category &&
                                                     <tr key={i} style={{ verticalAlign: "middle" }}>
-                                                        <td>{martItem._id}</td>
+                                                        <td>{i+1}</td>
                                                         <td><h4>{martItem.name}</h4></td>
-                                                        <td><button onClick={() => handleShow(martItem)} style={{ textDecoration: "underline", background: "none", padding: 0, width: "100px" }}>Details</button></td>
+                                                        <td><button onClick={() => handleShow(martItem)} className='btn btn-outline-dark' style={{ width: "100px" }}>Details</button></td>
                                                         <td><Link to={`/admin/update-mart-item/${martItem._id}`} className='btn btn-primary'>Update</Link></td>
                                                         <td><button className='btn btn-danger' onClick={() => handleDelete(martItem._id)}>Delete</button></td>
                                                     </tr>
