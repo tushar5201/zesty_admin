@@ -89,7 +89,7 @@ export default function RestaurantScreen() {
                 <th>Restaurant Id</th>
                 <th>Restaurant Name</th>
                 <th>Details</th>
-                <th>Delete</th>
+                <th>Remove</th>
               </tr>
             </thead>
 
@@ -106,7 +106,7 @@ export default function RestaurantScreen() {
                       <td>{i+1}</td>
                       <td><h4>{restaurant.restaurantName}</h4></td>
                       <td><button onClick={() => handleShow(restaurant)} style={{ textDecoration: "underline", background: "none", padding: 0, width: "100px" }}>Details</button></td>
-                      <td><button className='btn btn-danger' onClick={() => handleDelete(restaurant._id)}>Delete</button></td>
+                      <td><button className='btn btn-danger' onClick={() => handleDelete(restaurant._id)}>Remove</button></td>
                     </tr>
                   ))}
                 {search === "" && restaurants.slice(0).reverse().map((restaurant, i) => (
@@ -114,7 +114,7 @@ export default function RestaurantScreen() {
                     <td>{i+1}</td>
                     <td><h4>{restaurant.restaurantName}</h4></td>
                     <td><button onClick={() => handleShow(restaurant)} className='btn btn-outline-dark' style={{ width: "100px" }}>Details</button></td>
-                    <td><button className='btn btn-danger' onClick={() => handleDelete(restaurant._id)}>Delete</button></td>
+                    <td><button className='btn btn-danger' onClick={() => handleDelete(restaurant._id)}>Remove</button></td>
                   </tr>
                 ))}
               </tbody>

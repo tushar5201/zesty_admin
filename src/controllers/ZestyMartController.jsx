@@ -40,7 +40,7 @@ export default function AddMartItem() {
 
     const submitHandler = async (e) => {
         setLoading(true);
-        if (name === "" && price === "" && description === "" && weight === "" && pack === "" && category === "") {
+        if (name === "" || price === "" || description === "" || weight === "" || pack === "" || category === "" || images === null) {
             toast.dark("All fields are mandatory");
             setLoading(false);
         } else if (price < "1") {
