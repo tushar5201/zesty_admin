@@ -2,7 +2,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 import HomeScreen from "./screens/HomeScreen";
 import SigninScreen from "./screens/SigninScreen";
-import SignupScreen from "./screens/SignupScreen";
+// import SignupScreen from "./screens/SignupScreen";
 import 'react-toastify/dist/ReactToastify.css';
 import OrdersScreen from "./screens/OrdersScreen";
 import UsersScreen from "./screens/UsersScreen";
@@ -25,8 +25,8 @@ function App() {
           <ToastContainer position="bottom-center" limit={1} />
           <Routes>
             <Route path="/" element={<HomeScreen />} />
+            {/* <Route path="/admin/signin" element={<SigninScreen />} /> */}
             <Route path="/admin/signin" element={<SigninScreen />} />
-            <Route path="/admin/signup" element={<SignupScreen />} />
             <Route path="/admin/orders" element={<OrdersScreen />} />
             <Route path="/admin/users" element={<UsersScreen />} />
             {/* <Route path="/admin/rider" element={<RiderScreen />} /> */}
