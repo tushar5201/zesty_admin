@@ -119,7 +119,7 @@ export default function ZestyMart() {
                                         <tbody>
                                             {search === "" && martItems.slice(0).reverse().map((martItem, i) => (
                                                 <tr key={i} style={{ verticalAlign: "middle" }}>
-                                                    <td>{i+1}</td>
+                                                    <td>{i + 1}</td>
                                                     <td><h4>{martItem.name}</h4></td>
                                                     <td><button onClick={() => handleShow(martItem)} className='btn btn-outline-dark' style={{ width: "100px" }}>Details</button></td>
                                                     <td><Link to={`/admin/update-mart-item/${martItem._id}`} className='btn btn-primary'>Update</Link></td>
@@ -127,21 +127,33 @@ export default function ZestyMart() {
                                                 </tr>
                                             ))}
 
-                                            {martItems.slice(0).reverse()
-                                                .filter((item) => {
-                                                    const searchTerm = search.toLowerCase();
-                                                    const name = item.name.toLowerCase();
-                                                    return searchTerm && name.startsWith(searchTerm);
-                                                })
-                                                .map((martItem, i) => (
-                                                    <tr key={i} style={{ verticalAlign: "middle" }}>
-                                                        <td>{i+1}</td>
-                                                        <td><h4>{martItem.name}</h4></td>
-                                                        <td><button onClick={() => handleShow(martItem)} className='btn btn-outline-dark' style={{ width: "100px" }}>Details</button></td>
-                                                        <td><Link to={`/admin/update-mart-item/${martItem._id}`} className='btn btn-primary'>Update</Link></td>
-                                                        <td><button className='btn btn-danger' onClick={() => handleDelete(martItem._id)}>Delete</button></td>
+                                            {(() => {
+                                                const filteredItems = martItems.slice(0).reverse()
+                                                    .filter((item) => {
+                                                        const searchTerm = search.toLowerCase();
+                                                        const name = item.name.toLowerCase();
+                                                        return searchTerm && name.includes(searchTerm);
+                                                    });
+
+                                                return filteredItems.length > 0 ? (
+                                                    filteredItems.map((martItem, i) => (
+                                                        <tr key={i} style={{ verticalAlign: "middle" }}>
+                                                            <td>{i + 1}</td>
+                                                            <td><h4>{martItem.name}</h4></td>
+                                                            <td><button onClick={() => handleShow(martItem)} className='btn btn-outline-dark' style={{ width: "100px" }}>Details</button></td>
+                                                            <td><Link to={`/admin/update-mart-item/${martItem._id}`} className='btn btn-primary'>Update</Link></td>
+                                                            <td><button className='btn btn-danger' onClick={() => handleDelete(martItem._id)}>Delete</button></td>
+                                                        </tr>
+                                                    ))
+                                                ) : (
+                                                    <tr>
+                                                        <td colSpan="5" className="text-center">
+                                                            <MessageBox>No Results Found for "{search}"</MessageBox>
+                                                        </td>
                                                     </tr>
-                                                ))}
+                                                );
+                                            })()}
+
                                         </tbody>
                                     )}
                                 </>
@@ -152,7 +164,7 @@ export default function ZestyMart() {
                                             {search === "" && martItems.slice(0).reverse().map((martItem, i) => (
                                                 martItem.category === category &&
                                                 <tr key={i} style={{ verticalAlign: "middle" }}>
-                                                    <td>{i+1}</td>
+                                                    <td>{i + 1}</td>
                                                     <td><h4>{martItem.name}</h4></td>
                                                     <td><button onClick={() => handleShow(martItem)} className='btn btn-outline-dark' style={{ width: "100px" }}>Details</button></td>
                                                     <td><Link to={`/admin/update-mart-item/${martItem._id}`} className='btn btn-primary'>Update</Link></td>
@@ -168,7 +180,7 @@ export default function ZestyMart() {
                                                 .map((martItem, i) => (
                                                     martItem.category === category &&
                                                     <tr key={i} style={{ verticalAlign: "middle" }}>
-                                                        <td>{i+1}</td>
+                                                        <td>{i + 1}</td>
                                                         <td><h4>{martItem.name}</h4></td>
                                                         <td><button onClick={() => handleShow(martItem)} className='btn btn-outline-dark' style={{ width: "100px" }}>Details</button></td>
                                                         <td><Link to={`/admin/update-mart-item/${martItem._id}`} className='btn btn-primary'>Update</Link></td>

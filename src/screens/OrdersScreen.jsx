@@ -103,7 +103,7 @@ export default function OrdersScreen() {
               <tbody>
                 {orders.slice(0).reverse().map((order, i) => (
                   <tr key={i}>
-                    <td>{i+1}</td>
+                    <td>{i + 1}</td>
                     <td>{new Date(order.createdAt).toLocaleDateString()}</td>
                     <th>{order.restaurantName}</th>
                     <td>
@@ -158,7 +158,7 @@ export default function OrdersScreen() {
                         ))
                       )}
                       <tr>
-                        <td>Delivery Charges</td>
+                        <td>Taxes</td>
                         <td className='text-end'>
                           {(selectedOrder.totalAmountUser - totalbase).toFixed(2)}
                         </td>
