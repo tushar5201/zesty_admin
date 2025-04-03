@@ -116,7 +116,7 @@ export default function PastOrdersandPartners() {
                         <tbody>
                             {loadingRestaurant ? <Loading /> : errorRestaurant ? <MessageBox>{errorRestaurant}</MessageBox> :
                                 restaurants.map((restaurant, index) => (
-                                    index < 5 &&
+                                    index < 4 &&
                                     <tr key={index}>
                                         <td>
                                             <img src={restaurant.logoImg} style={{ width: "150px", height: "100px" }} alt="" />

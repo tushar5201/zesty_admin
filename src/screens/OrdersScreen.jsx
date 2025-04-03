@@ -12,11 +12,11 @@ import MessageBox from '../components/MessageBox';
 const reducerOrders = (state, action) => {
   switch (action.type) {
     case 'FETCH_REQUEST':
-      return { ...state, loading: true };
+      return { ...state, loadingOrders: true };
     case 'FETCH_SUCCESS':
-      return { ...state, loading: false, orders: action.payload };
+      return { ...state, loadingOrders: false, orders: [...state.orders, ...action.payload], hasMore: action.payload.length > 0 };
     case 'FETCH_FAIL':
-      return { ...state, loading: false, error: action.payload };
+      return { ...state, loadingOrders: false, error: action.payload };
     default:
       return state;
   }
@@ -36,10 +36,11 @@ const reducerRestaurant = (state, action) => {
 }
 export default function OrdersScreen() {
 
-  const [{ loadingOrders, errorOrders, orders }, dispatchOrders] = useReducer(reducerOrders, {
-    loading: true,
+  const [{ loadingOrders, errorOrders, orders, hasMore }, dispatchOrders] = useReducer(reducerOrders, {
+    loading: false,
     error: '',
-    orders: []
+    orders: [],
+    hasMore: true
   });
 
   const [{ loadingRes, errorRes, restaurantMenu }, dispatchRestaurant] = useReducer(reducerRestaurant, {
@@ -48,10 +49,12 @@ export default function OrdersScreen() {
     restaurantMenu: []
   });
 
-  const fetchOrders = async () => {
+  const [page, setPage] = useState(1);
+
+  const fetchOrders = async (pageNum) => {
     dispatchOrders({ type: 'FETCH_REQUEST' });
     try {
-      const response = await axios.get(`https://zesty-backend.onrender.com/order/get-all-orders`);
+      const response = await axios.get(`https://zesty-backend.onrender.com/order/get-all-orders/${pageNum}`);
       dispatchOrders({ type: 'FETCH_SUCCESS', payload: response.data });
     } catch (error) {
       dispatchOrders({ type: 'FETCH_FAIL', payload: error.response?.data?.message || error.message });
@@ -79,8 +82,18 @@ export default function OrdersScreen() {
   }
 
   useEffect(() => {
-    fetchOrders();
-  }, [])
+    fetchOrders(page);
+  }, [page]);
+
+  useEffect(() => {
+    function handleScroll() {
+      if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight && !loadingOrders && hasMore) {
+        setPage((prevPage) => prevPage + 1);
+      }
+    }
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [loadingOrders, hasMore])
 
   return (
     <div className="app">
@@ -89,7 +102,7 @@ export default function OrdersScreen() {
         <Header />
         <div style={{ padding: "20px" }}>
           <h2>Orders</h2>
-          {loadingOrders ? <Loading /> : errorOrders ? <MessageBox>{errorOrders}</MessageBox> :
+          {errorOrders && <MessageBox>{errorOrders}</MessageBox>}
             <table className='mt-5 table'>
               <thead>
                 <tr>
@@ -101,7 +114,7 @@ export default function OrdersScreen() {
                 </tr>
               </thead>
               <tbody>
-                {orders.slice(0).reverse().map((order, i) => (
+                {orders.map((order, i) => (
                   <tr key={i}>
                     <td>{i + 1}</td>
                     <td>{new Date(order.createdAt).toLocaleDateString()}</td>
@@ -119,7 +132,8 @@ export default function OrdersScreen() {
                 ))}
               </tbody>
             </table>
-          }
+          {loadingOrders && <Loading />}
+
         </div>
       </div>
 
@@ -152,6 +166,7 @@ export default function OrdersScreen() {
                                     totalbase += parseFloat(menuItem.price * item.quantity);
                                     return <span>{parseFloat(menuItem.price * item.quantity).toFixed(2)}</span>
                                   }
+                                  return "";
                                 })}
                             </td>
                           </tr>

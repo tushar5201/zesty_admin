@@ -145,7 +145,7 @@ export default function ZestyMart() {
                                                             <td><button className='btn btn-danger' onClick={() => handleDelete(martItem._id)}>Delete</button></td>
                                                         </tr>
                                                     ))
-                                                ) : (
+                                                ) : search !== "" && (
                                                     <tr>
                                                         <td colSpan="5" className="text-center">
                                                             <MessageBox>No Results Found for "{search}"</MessageBox>
