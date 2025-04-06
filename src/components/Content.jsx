@@ -71,7 +71,7 @@ export default function Content() {
     const fetchOrders = async () => {
         dispatchOrders({ type: 'FETCH_REQUEST' });
         try {
-            const orders = await axios.get('https://zesty-backend.onrender.com/order/get-all-orders');
+            const orders = await axios.get('https://zesty-backend.onrender.com/order/get-all-orders/0');
             setRevenue(calculateRevenue(orders.data).toFixed(2)); // Calculate revenue after fetching orders
             dispatchOrders({ type: 'FETCH_SUCCESS', payload: orders.data });
         } catch (error) {
@@ -105,7 +105,6 @@ export default function Content() {
         return orders.reduce((totalRevenue, order) => {
             const userAmount = parseFloat(order.totalAmountUser) || 0;
             const restaurantAmount = parseFloat((order.totalAmountRestaurant * 100) / 130) || 0;
-            console.log("total Amount" + totalRevenue);
 
             return totalRevenue + (userAmount - restaurantAmount);
         }, 0);

@@ -48,7 +48,7 @@ export default function PastOrdersandPartners() {
     const fetchOrders = async () => {
         dispatchOrders({ type: 'FETCH_REQUEST' });
         try {
-            const orders = await axios.get('https://zesty-backend.onrender.com/order/get-all-orders');
+            const orders = await axios.get('https://zesty-backend.onrender.com/order/get-all-orders/0');
             // calculateRevenue(orders.data); // Calculate revenue after fetching orders
             dispatchOrders({ type: 'FETCH_SUCCESS', payload: orders.data });
         } catch (error) {
