@@ -9,6 +9,7 @@ import { toast } from "react-toastify";
 import { Modal } from "react-bootstrap"
 import { useReducer } from 'react';
 import Loading from '../components/Loading';
+import { useNavigate } from 'react-router-dom';
 // import {socket} from "socket.io-client";
 
 const socket = io("https://zesty-backend.onrender.com");
@@ -27,6 +28,16 @@ const reducer = (state, action) => {
 }
 
 export default function Notification() {
+  const navigate = useNavigate();
+    useEffect(() => {
+        const checkAuth = () => {
+            const user = localStorage.getItem("username");
+            if (user === null) {
+                navigate("/admin/signin")
+            }
+        }
+        checkAuth();
+    }, [navigate]);
 
   const [{ loading, error, allRestaurants }, dispatch] = useReducer(reducer, {
     loading: true,

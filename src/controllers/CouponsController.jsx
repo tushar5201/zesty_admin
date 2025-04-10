@@ -8,12 +8,21 @@ import Loading from '../components/Loading';
 import MessageBox from '../components/MessageBox';
 
 export function CreateCoupon() {
+    const navigate = useNavigate();
+    useEffect(() => {
+        const checkAuth = () => {
+            const user = localStorage.getItem("username");
+            if (user === null) {
+                navigate("/admin/signin")
+            }
+        }
+        checkAuth();
+    }, [navigate]);
     const [promoCode, setPromoCode] = useState("");
     const [description, setDescription] = useState("");
     const [discountPercentage, setDiscountPercentage] = useState("");
     const [discountUpto, setDiscountUpto] = useState("");
     const [minAmountRequired, setMinAmountRequired] = useState("");
-    const navigate = useNavigate();
 
     const [loading, setLoading] = useState(false);
 
@@ -140,6 +149,17 @@ const reducer = (state, action) => {
 }
 
 export default function UpdateCoupon() {
+    const navigate = useNavigate();
+    useEffect(() => {
+        const checkAuth = () => {
+            const user = localStorage.getItem("username");
+            if (user === null) {
+                navigate("/admin/signin")
+            }
+        }
+        checkAuth();
+    }, [navigate]);
+
     const [{ loading, error, coupon }, dispatch] = useReducer(reducer, {
         loading: true,
         error: "",
@@ -154,7 +174,6 @@ export default function UpdateCoupon() {
     const [discountUpto, setDiscountUpto] = useState("");
     const [minAmtReq, setMinAmtReq] = useState("");
     const { id } = useParams();
-    const navigate = useNavigate();
 
     const submitHandler = async (e) => {
         e.preventDefault();
@@ -186,19 +205,18 @@ export default function UpdateCoupon() {
         }
     }
 
-    const fetchData = async () => {
-        dispatch({ type: "FETCH_REQUEST" });
-        try {
-            const res = await axios.get(`https://zesty-backend.onrender.com/coupon/get/${id}`);
-            dispatch({ type: "FETCH_SUCCESS", payload: res.data });
-        } catch (error) {
-            dispatch({ type: 'FETCH_FAILED', payload: error.message })
-        }
-    }
-
     useEffect(() => {
+        const fetchData = async () => {
+            dispatch({ type: "FETCH_REQUEST" });
+            try {
+                const res = await axios.get(`https://zesty-backend.onrender.com/coupon/get/${id}`);
+                dispatch({ type: "FETCH_SUCCESS", payload: res.data });
+            } catch (error) {
+                dispatch({ type: 'FETCH_FAILED', payload: error.message })
+            }
+        }
         fetchData();
-    }, [])
+    }, [id])
 
     return (
         <div style={{ width: "100%", padding: "0", margin: "0" }}>

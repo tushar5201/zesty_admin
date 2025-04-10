@@ -9,6 +9,7 @@ import { useEffect } from 'react'
 import { useState } from 'react'
 import Loading from '../components/Loading'
 import MessageBox from '../components/MessageBox'
+import { useNavigate } from 'react-router-dom'
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -24,6 +25,16 @@ const reducer = (state, action) => {
 }
 
 export default function RestaurantScreen() {
+  const navigate = useNavigate();
+  useEffect(() => {
+    const checkAuth = () => {
+      const user = localStorage.getItem("username");
+      if (user === null) {
+        navigate("/admin/signin")
+      }
+    }
+    checkAuth();
+  }, [navigate]);
   const [{ loading, error, restaurants }, dispatch] = useReducer(reducer, {
     loading: true,
     error: '',

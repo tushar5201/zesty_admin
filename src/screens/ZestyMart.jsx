@@ -3,7 +3,7 @@ import Sidebar from '../components/Sidebar'
 import Header from '../components/Header'
 import { useReducer } from 'react'
 import { Row, Col, Modal } from "react-bootstrap"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import axios from "axios"
 import { toast } from 'react-toastify'
 import { useEffect } from 'react'
@@ -25,6 +25,16 @@ const reducer = (state, action) => {
 }
 
 export default function ZestyMart() {
+    const navigate = useNavigate();
+    useEffect(() => {
+        const checkAuth = () => {
+            const user = localStorage.getItem("username");
+            if (user === null) {
+                navigate("/admin/signin")
+            }
+        }
+        checkAuth();
+    }, [navigate]);
     const [{ loading, error, martItems }, dispatch] = useReducer(reducer, {
         loading: true,
         error: '',

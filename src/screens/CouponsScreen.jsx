@@ -1,7 +1,7 @@
 import React, { useEffect, useReducer } from 'react';
 import Sidebar from '../components/Sidebar';
 import { Row, Col } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Header from '../components/Header';
 import axios from "axios";
 import { toast } from 'react-toastify';
@@ -22,6 +22,17 @@ const reducer = (state, action) => {
 };
 
 export default function CouponScreen() {
+    const navigate = useNavigate();
+    useEffect(() => {
+        const checkAuth = () => {
+            const user = localStorage.getItem("username");
+            if (user === null) {
+                navigate("/admin/signin")
+            }
+        }
+        checkAuth();
+    }, [navigate]);
+
     const [{ loading, error, coupons }, dispatch] = useReducer(reducer, {
         loading: true,
         error: '',

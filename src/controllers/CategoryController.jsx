@@ -8,9 +8,18 @@ import Loading from '../components/Loading'
 import MessageBox from '../components/MessageBox'
 
 export function CreateCategory() {
+    const navigate = useNavigate();
+    useEffect(() => {
+        const checkAuth = () => {
+            const user = localStorage.getItem("username");
+            if (user === null) {
+                navigate("/admin/signin")
+            }
+        }
+        checkAuth();
+    }, [navigate]);
     const [name, setName] = useState("");
     const [image, setImage] = useState("");
-    const navigate = useNavigate();
 
     const [loading, setLoading] = useState(false);
 
@@ -88,7 +97,16 @@ const reducer = (state, action) => {
 }
 
 export default function UpdateCategory() {
-
+    const navigate = useNavigate();
+    useEffect(() => {
+        const checkAuth = () => {
+            const user = localStorage.getItem("username");
+            if (user === null) {
+                navigate("/admin/signin")
+            }
+        }
+        checkAuth();
+    }, [navigate]);
     const [{ loading, error, category }, dispatch] = useReducer(reducer, {
         loading: true,
         error: "",
@@ -99,7 +117,6 @@ export default function UpdateCategory() {
 
     const [name, setName] = useState("");
     const [image, setImage] = useState("");
-    const navigate = useNavigate();
     const { id } = useParams();
 
     const submitHandler = async () => {
@@ -134,19 +151,18 @@ export default function UpdateCategory() {
         }
     }
 
-    const fetchData = async () => {
-        dispatch({ type: "FETCH_REQUEST" });
-        try {
-            const res = await axios.get(`https://zesty-backend.onrender.com/category/get/${id}`);
-            dispatch({ type: "FETCH_SUCCESS", payload: res.data });
-        } catch (error) {
-            dispatch({ type: 'FETCH_FAILED', payload: error.message })
-        }
-    }
-
     useEffect(() => {
+        const fetchData = async () => {
+            dispatch({ type: "FETCH_REQUEST" });
+            try {
+                const res = await axios.get(`https://zesty-backend.onrender.com/category/get/${id}`);
+                dispatch({ type: "FETCH_SUCCESS", payload: res.data });
+            } catch (error) {
+                dispatch({ type: 'FETCH_FAILED', payload: error.message })
+            }
+        }
         fetchData();
-    }, [])
+    }, [id])
     return (
         <div style={{ width: "100%", padding: "0", margin: "0" }}>
             <Header />

@@ -8,6 +8,7 @@ import { useState } from 'react';
 import { Modal } from "react-bootstrap";
 import Loading from '../components/Loading';
 import MessageBox from '../components/MessageBox';
+import { useNavigate } from 'react-router-dom';
 
 const reducerOrders = (state, action) => {
   switch (action.type) {
@@ -35,6 +36,17 @@ const reducerRestaurant = (state, action) => {
   }
 }
 export default function OrdersScreen() {
+
+  const navigate = useNavigate();
+  useEffect(() => {
+    const checkAuth = () => {
+      const user = localStorage.getItem("username");
+      if (user === null) {
+        navigate("/admin/signin")
+      }
+    }
+    checkAuth();
+  }, [navigate]);
 
   const [{ loadingOrders, errorOrders, orders, hasMore }, dispatchOrders] = useReducer(reducerOrders, {
     loading: false,

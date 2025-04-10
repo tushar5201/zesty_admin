@@ -9,6 +9,7 @@ import { Row, Col, Modal } from "react-bootstrap"
 import { useEffect } from 'react'
 import Loading from '../components/Loading'
 import MessageBox from '../components/MessageBox'
+import { useNavigate } from 'react-router-dom'
 
 const reducer = (state, action) => {
     switch (action.type) {
@@ -24,6 +25,16 @@ const reducer = (state, action) => {
 }
 
 export default function UsersScreen() {
+    const navigate = useNavigate();
+    useEffect(() => {
+        const checkAuth = () => {
+            const user = localStorage.getItem("username");
+            if (user === null) {
+                navigate("/admin/signin")
+            }
+        }
+        checkAuth();
+    }, [navigate]);
     const [{ loading, error, users }, dispatch] = useReducer(reducer, {
         loading: true,
         error: '',
@@ -102,7 +113,7 @@ export default function UsersScreen() {
                                     })
                                     .map((user, i) => (
                                         <tr key={i} style={{ verticalAlign: "middle" }}>
-                                            <td>{i+1}</td>
+                                            <td>{i + 1}</td>
                                             <td><h4>{user.mobile}</h4></td>
                                             <td><button onClick={() => handleShow(user)} className='btn btn-outline-dark' style={{ width: "100px" }}>Details</button></td>
                                             <td><button className='btn btn-danger' onClick={() => handleDelete(user._id)}>Delete</button></td>
@@ -110,7 +121,7 @@ export default function UsersScreen() {
                                     ))}
                                 {search === "" && users.slice(0).reverse().map((user, i) => (
                                     <tr key={i} style={{ verticalAlign: "middle" }}>
-                                        <td>{i+1}</td>
+                                        <td>{i + 1}</td>
                                         <td><h4>{user.mobile}</h4></td>
                                         <td><button onClick={() => handleShow(user)} className='btn btn-outline-dark' style={{ width: "100px" }}>Details</button></td>
                                         <td><button className='btn btn-danger' onClick={() => handleDelete(user._id)}>Delete</button></td>

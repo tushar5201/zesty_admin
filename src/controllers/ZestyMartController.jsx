@@ -9,6 +9,16 @@ import Loading from '../components/Loading'
 import MessageBox from '../components/MessageBox'
 
 export default function AddMartItem() {
+    const navigate = useNavigate();
+    useEffect(() => {
+        const checkAuth = () => {
+            const user = localStorage.getItem("username");
+            if (user === null) {
+                navigate("/admin/signin")
+            }
+        }
+        checkAuth();
+    }, [navigate]);
     const [category, setCategory] = useState("");
     const [images, setImages] = useState([]);
     const [name, setName] = useState("");
@@ -19,8 +29,6 @@ export default function AddMartItem() {
     const [pack, setPack] = useState("");
 
     const [loading, setLoading] = useState(false);
-
-    const navigate = useNavigate();
 
     const handleChange = (e) => {
         const value = e.target.value;
@@ -165,6 +173,16 @@ const reducer = (state, action) => {
 }
 
 export function UpdateZestyMart() {
+    const navigate = useNavigate();
+    useEffect(() => {
+        const checkAuth = () => {
+            const user = localStorage.getItem("username");
+            if (user === null) {
+                navigate("/admin/signin")
+            }
+        }
+        checkAuth();
+    }, [navigate]);
     const [{ loading, error, martItem }, dispatch] = useReducer(reducer, {
         loading: true,
         error: "",
@@ -178,7 +196,6 @@ export function UpdateZestyMart() {
     const [description, setDescription] = useState("");
     const [weight, setWeight] = useState("");
     const [existingImgs, setExistingImgs] = useState(null);
-    const navigate = useNavigate();
     const { id } = useParams();
 
     const [loading1, setLoading] = useState(false);
@@ -196,17 +213,6 @@ export function UpdateZestyMart() {
         const filesArray = Array.from(e.target.files); // Convert FileList to Array
         setImages([...images, ...filesArray]); // Append new images properly
     };
-
-    const fetchData = async () => {
-        dispatch({ type: "FETCH_REQUEST" });
-        try {
-            const res = await axios.get(`https://zesty-backend.onrender.com/zestyMart/get/${id}`);
-            setExistingImgs(res.data.images);
-            dispatch({ type: "FETCH_SUCCESS", payload: res.data });
-        } catch (error) {
-            dispatch({ type: 'FETCH_FAILED', payload: error.message })
-        }
-    }
 
     const handleImageDelete = (index) => {
         const updatedImages = existingImgs.filter((_, i) => i !== index);
@@ -258,9 +264,18 @@ export function UpdateZestyMart() {
     };
 
     useEffect(() => {
+        const fetchData = async () => {
+            dispatch({ type: "FETCH_REQUEST" });
+            try {
+                const res = await axios.get(`https://zesty-backend.onrender.com/zestyMart/get/${id}`);
+                setExistingImgs(res.data.images);
+                dispatch({ type: "FETCH_SUCCESS", payload: res.data });
+            } catch (error) {
+                dispatch({ type: 'FETCH_FAILED', payload: error.message })
+            }
+        }
         fetchData();
-        // fetchImages();
-    }, []);
+    }, [id]);
     return (
         <div style={{ width: "100%", padding: "0", margin: "0" }}>
             <Header />

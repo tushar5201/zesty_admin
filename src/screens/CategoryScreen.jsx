@@ -5,7 +5,7 @@ import { useReducer } from 'react'
 import axios from "axios"
 import { toast } from "react-toastify"
 import { Row, Col } from "react-bootstrap"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import Header from '../components/Header'
 import { useState } from 'react'
 import Loading from '../components/Loading'
@@ -25,6 +25,17 @@ const reducer = (state, action) => {
 }
 
 export default function CategoryScreen() {
+    const navigate = useNavigate();
+    useEffect(() => {
+        const checkAuth = () => {
+            const user = localStorage.getItem("username");
+            if (user === null) {
+                navigate("/admin/signin")
+            }
+        }
+        checkAuth();
+    }, [navigate]);
+
     const [{ loading, error, categories }, dispatch] = useReducer(reducer, {
         loading: true,
         error: '',
@@ -103,7 +114,7 @@ export default function CategoryScreen() {
                                     })
                                     .map((category, i) => (
                                         <tr key={i} style={{ verticalAlign: "middle" }}>
-                                            <td>{i+1}</td>
+                                            <td>{i + 1}</td>
                                             <td><h4>{category.name}</h4></td>
                                             <td><img src={category.image} height={"200px"} alt={category.name} /></td>
                                             <td><Link className='btn btn-primary' to={`/admin/update-category/${category._id}`}>Update</Link></td>
@@ -114,7 +125,7 @@ export default function CategoryScreen() {
 
                                 {search === "" && categories.slice(0).reverse().map((category, i) => (
                                     <tr key={i} style={{ verticalAlign: "middle" }}>
-                                        <td>{i+1}</td>
+                                        <td>{i + 1}</td>
                                         <td><h4>{category.name}</h4></td>
                                         <td><img src={category.image} height={"200px"} alt={category.name} /></td>
                                         <td><Link className='btn btn-primary' to={`/admin/update-category/${category._id}`}>Update</Link></td>
