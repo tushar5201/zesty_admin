@@ -18,6 +18,16 @@ import ZestyMart from "./screens/ZestyMart";
 import AddMartItem, { UpdateZestyMart } from "./controllers/ZestyMartController";
 
 function App() {
+  const navigate = useNavigate();
+  const checkAuth = () => {
+    const user = localStorage.getItem("username");
+    if (user === null) {
+      navigate("/admin/signin")
+    }
+  }
+  useEffect(() => {
+    checkAuth();
+  }, [])
   return (
     <BrowserRouter>
       <div>
